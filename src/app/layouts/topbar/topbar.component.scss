@@ -1,0 +1,36 @@
+/* 🔲 Toute la barre du haut */
+#page-topbar {
+  background-color: #ffffff !important;
+  color: #fff !important;
+  border-bottom: 1px solid #222;
+
+  .navbar-header,
+  .navbar-brand-box {
+    background-color: #000 !important;
+    border-right: 1px solid #222;
+  }
+
+
+
+  .header-item,
+  .app-search input,
+  .bx,
+  .mdi,
+  span,
+  i {
+    color: #fff !important;
+  }
+
+  .dropdown-menu {
+    background-color: #fdfdfd !important;
+    color: #fff !important;
+  }
+
+  .dropdown-menu a {
+    color: #fff !important;
+  }
+
+  .badge {
+    background-color: #444 !important;
+  }
+}

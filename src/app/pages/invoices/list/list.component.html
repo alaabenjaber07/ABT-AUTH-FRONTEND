@@ -1,0 +1,78 @@
+<div class="container-fluid">
+
+  <!-- start page title -->
+  <app-page-title title="Settelement List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mb-2">
+          <div class="col-sm-4">
+            <div class="search-box me-2 mb-2 d-inline-block">
+              <div class="position-relative">
+                <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchTerm">
+                <i class="bx bx-search-alt search-icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <div class="text-sm-end">
+              <button type="button" class="btn btn-success btn-rounded mb-2 me-2">
+                <i class="mdi mdi-plus me-1"></i> Add New Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-centered table-nowrap">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 20px;">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="customCheck1">
+                    <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                  </div>
+                </th>
+                <th>Order ID</th>
+                <th>Billing Name</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Payment Status</th>
+                <th>Payment Method</th>
+                <th>View Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transaction of transactions | filter:searchTerm">
+                <td>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="customCheck{{transaction.index}}">
+                    <label class="form-check-label" for="customCheck{{transaction.index}}">&nbsp;</label>
+                  </div>
+                </td>
+                <td><a href="javascript: void(0);" class="text-body fw-bold">{{transaction.id}}</a></td>
+                <td>{{transaction.name}}</td>
+                <td>{{transaction.date}}</td>
+                <td>{{transaction.total}}</td>
+                <td>
+                  <span class="badge badge-pill badge-soft-success font-size-12" [ngClass]="{'badge-soft-danger': transaction.status === 'Chargeback' || transaction.status === 'Refund', 'badge-soft-success': transaction.status === 'Paid'}">{{transaction.status}}</span>
+                </td>
+                <td>
+                  <i class="{{transaction.payment[0]}} me-1"></i> {{transaction.payment[1]}}
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary btn-sm btn-rounded">
+                    View Details
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div> <!-- container-fluid -->

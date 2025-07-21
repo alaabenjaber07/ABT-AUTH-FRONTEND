@@ -1,0 +1,21 @@
+/* 🌑 Sidebar noire */
+.vertical-menu,
+#sidebar-menu {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* ✏️ Couleur des textes, titres et icônes */
+#sidebar-menu .menu-title,
+#sidebar-menu a,
+#sidebar-menu i {
+  color: #fff !important;
+}
+
+/* 🔁 Hover et lien actif */
+#sidebar-menu a:hover,
+#sidebar-menu a.active,
+#sidebar-menu .mm-active > a {
+  background-color: #1a1a1a !important;
+  color: #fff !important;
+}
