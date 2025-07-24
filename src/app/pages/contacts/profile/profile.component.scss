@@ -1,0 +1,15 @@
+/* Centrer horizontalement le contenu de la row */
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+/* Agrandir la card à 70% de la largeur de son parent */
+.col-xl-4 {
+  max-width: 70% !important;
+}
+
+/* Pour t’assurer que la card prend toute la largeur de la colonne */
+.card {
+  width: 100%;
+}

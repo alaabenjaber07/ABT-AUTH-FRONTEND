@@ -14,6 +14,7 @@ import { UsergridComponent } from './usergrid/usergrid.component';
 import { UserlistComponent } from './userlist/userlist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ArchwizardModule } from 'angular-archwizard';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ArchwizardModule } from 'angular-archwizard';
     NgApexchartsModule,
     FormsModule, ReactiveFormsModule ,
     NgbTooltipModule,
-     ArchwizardModule
+     ArchwizardModule,
+     RouterModule
   ]
 })
 export class ContactsModule { }

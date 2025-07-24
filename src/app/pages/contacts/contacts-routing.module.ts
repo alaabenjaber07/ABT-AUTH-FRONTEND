@@ -15,8 +15,7 @@ const routes: Routes = [
         component: UsergridComponent
     },
      { path: 'profile/:id', component: ProfileComponent },
-    // ou, pour permettre les deux
-    { path: 'profile', redirectTo: 'profile/default', pathMatch: 'full' }
+    { path: '', component: ProfileComponent },
 ];
 
 @NgModule({
