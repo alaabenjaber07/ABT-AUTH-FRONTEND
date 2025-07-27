@@ -2,53 +2,57 @@
 
   <app-page-title title="Profile" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
-  <div class="row">
-    <!-- MODIFIÉ POUR ÊTRE DYNAMIQUE -->
-    <div class="col-xl-4">
-      <div class="card overflow-hidden">
-        <div class="bg-soft bg-primary">
-          <div class="row">
-            <div class="col-7">
-              <div class="text-primary p-3">
-                <h5 class="text-primary"> {{ userProfile?.firstName }} </h5>
-                <p>Voici les infos de profil</p>
-              </div>
-            </div>
-            <div class="col-5 align-self-end">
-              <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+  <div class="row justify-content-center">
+  <div class="col-xl-10">
+    <div class="card overflow-hidden big-profile-card">
+      <div class="bg-soft bg-primary">
+        <div class="row">
+          <div class="col-7">
+            <div class="text-primary p-4">
+              <h3 class="text-primary">{{ userProfile?.firstName }} {{ userProfile?.lastName }}</h3>
+              <p class="fs-5">Voici les infos de profil</p>
             </div>
           </div>
+          <div class="col-5 align-self-end">
+            <img src="assets/images/attijari-couv.jpg" alt="" class="img-fluid">
+          </div>
         </div>
-        <div class="card-body pt-0">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="avatar-md profile-user-wid mb-4">
-                <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
-              </div>
-              <h5 class="font-size-15 text-truncate">{{ userProfile?.firstName }} {{ userProfile?.lastName }}</h5>
-              <p class="text-muted mb-0 text-truncate">{{ userProfile?.username }}</p>
+      </div>
+      <div class="card-body pt-0">
+        <div class="row align-items-center">
+          <div class="col-sm-4 text-center">
+            <div class="avatar-xl profile-user-wid mb-4">
+              <img src="assets/images/users/userimage.png" alt="" class="img-thumbnail rounded-circle img-large">
             </div>
+            <h4 class="font-size-20">{{ userProfile?.firstName }} {{ userProfile?.lastName }}</h4>
+            <p class="text-muted mb-0">{{ userProfile?.matricule }}</p>
+          </div>
 
-            <div class="col-sm-8">
-              <div class="pt-4">
-                <div class="row">
-                  <div class="col-6">
-                    <h5 class="font-size-15">Adresse</h5>
-                    <p class="text-muted mb-0">Projects</p>
-                  </div>
-                  <div class="col-6">
-                    <h5 class="font-size-15">$0</h5>
-                    <p class="text-muted mb-0">Revenue</p>
-                  </div>
+          <div class="col-sm-8">
+            <div class="pt-4 px-3">
+              <div class="row mb-3">
+                <div class="col-6">
+                  <h5 class="font-size-16">Adresse</h5>
+                  <p class="text-muted">{{ userProfile?.address }}</p>
                 </div>
-                <div class="mt-4">
-                  <a href="javascript: void(0);" class="btn btn-primary btn-sm">View Profile <i
-                      class="mdi mdi-arrow-right ms-1"></i></a>
+                <div class="col-6">
+                  <h5 class="font-size-16">Téléphone</h5>
+                  <p class="text-muted">{{ userProfile?.phoneNumber }}</p>
                 </div>
+              </div>
+              <div class="mt-4 text-end">
+                <a class="btn btn-primary btn-lg"
+                   [routerLink]="['/edit-user', userProfile?.idUserprofile]">
+                  Modifier le Profil <i class="mdi mdi-arrow-right ms-2"></i>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
 
       

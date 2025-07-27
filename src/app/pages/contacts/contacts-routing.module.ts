@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserlistComponent } from './userlist/userlist.component';
 import { UsergridComponent } from './usergrid/usergrid.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
     {
@@ -14,8 +15,17 @@ const routes: Routes = [
         path: 'grid',
         component: UsergridComponent
     },
-     { path: 'profile/:id', component: ProfileComponent },
-    { path: '', component: ProfileComponent },
+    {
+         path: 'profile/:id', component: ProfileComponent 
+    },
+    {
+    path: 'edit-user/:id',
+    component: EditUserComponent
+     },
+
+    {  
+    path: '', component: ProfileComponent 
+    },
 ];
 
 @NgModule({

@@ -46,4 +46,9 @@ getProfile(username: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/profile/${username}`);
   }
 
+updateUserProfile(id: number, user: UserProfileDTO): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, user);
+}
+
+
 }

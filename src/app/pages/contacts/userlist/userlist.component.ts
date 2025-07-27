@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserProfileDTO } from 'src/app/core/models/UserProfileDTO';
 import { UserProfileService } from 'src/app/core/services/user.service';
 
@@ -17,7 +18,9 @@ breadCrumbItems: Array<{}>;
   loading: boolean = false;
   errorMessage: string | null = null;
 
-  constructor(private userProfileService: UserProfileService) {}
+  constructor(private userProfileService: UserProfileService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.breadCrumbItems = [{ label: 'Contacts' }, { label: 'Users List', active: true }];
@@ -50,6 +53,8 @@ breadCrumbItems: Array<{}>;
       });
     }
   }
-
+  goToEditUser(id: number) {
+   this.router.navigate(['/contacts/edit-user', id]);
+  }
 
 }

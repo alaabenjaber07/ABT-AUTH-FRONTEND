@@ -101,6 +101,7 @@ export const MENU: MenuItem[] = [
                 link: '/contacts/profile',
                 parentId: 48
             }
+          
         ]
     },
    

@@ -30,14 +30,12 @@
               </thead>
               <tbody>
                 <tr *ngFor="let user of users">
-                  <!-- Image statique -->
-                  <td>
-                    <div class="avatar-xs">
-                      <span class="avatar-title rounded-circle">
-                        U
-                      </span>
-                    </div>
-                  </td>
+                <td>
+                  <div class="avatar-xs">
+                    <!-- Remplacement par l'image statique -->
+                    <img src="assets/images/users/userimage.png" alt="User Image" class="img-thumbnail rounded-circle img-large" />
+                  </div>
+                </td>
 
                   <!-- Attributs dynamiques -->
                   <td>{{ user.username }}</td>
@@ -62,6 +60,11 @@
                           <i class="bx bx-user-circle"></i>
                         </a>
                       </li>
+                       <li class="list-inline-item px-2">
+                         <a (click)="goToEditUser(user.idUserprofile)" ngbTooltip="Modifier">
+                            <i class="bx bx-edit-alt"></i>
+                          </a>
+                        </li>
 
                     </ul>
                   </td>

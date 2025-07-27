@@ -15,10 +15,11 @@ import { UserlistComponent } from './userlist/userlist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ArchwizardModule } from 'angular-archwizard';
 import { RouterModule } from '@angular/router';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 
 @NgModule({
-  declarations: [UsergridComponent, UserlistComponent, ProfileComponent],
+  declarations: [UsergridComponent, UserlistComponent, ProfileComponent, EditUserComponent],
   imports: [
     CommonModule,
     ContactsRoutingModule,

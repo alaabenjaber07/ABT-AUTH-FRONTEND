@@ -13,3 +13,34 @@
 .card {
   width: 100%;
 }
+.custom-profile-card {
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+
+  .text-primary {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .img-thumbnail {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+  }
+
+  .profile-user-wid {
+    display: flex;
+    justify-content: center;
+  }
+
+  h5, p {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
