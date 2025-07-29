@@ -14,11 +14,13 @@ import { UsergridComponent } from './usergrid/usergrid.component';
 import { UserlistComponent } from './userlist/userlist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ArchwizardModule } from 'angular-archwizard';
+import { RouterModule } from '@angular/router';
+import { EditUserComponent } from './edit-user/edit-user.component';
 import { RoleComponent } from './role/role.component';
 
 
 @NgModule({
-  declarations: [UsergridComponent, UserlistComponent, ProfileComponent, RoleComponent],
+  declarations: [UsergridComponent, UserlistComponent, ProfileComponent, EditUserComponent, RoleComponent],
   imports: [
     CommonModule,
     ContactsRoutingModule,
@@ -28,7 +30,8 @@ import { RoleComponent } from './role/role.component';
     NgApexchartsModule,
     FormsModule, ReactiveFormsModule ,
     NgbTooltipModule,
-     ArchwizardModule
+     ArchwizardModule,
+     RouterModule
   ]
 })
 export class ContactsModule { }

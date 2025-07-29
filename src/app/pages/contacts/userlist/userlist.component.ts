@@ -1,6 +1,7 @@
-  import { Component, OnInit } from '@angular/core';
-  import { UserProfileDTO } from 'src/app/core/models/UserProfileDTO';
-  import { UserProfileService } from 'src/app/core/services/user.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserProfileDTO } from 'src/app/core/models/UserProfileDTO';
+import { UserProfileService } from 'src/app/core/services/user.service';
 
   @Component({
     selector: 'app-userlist',
@@ -8,17 +9,18 @@
     styleUrls: ['./userlist.component.scss']
   })
 
-  /**
-   * Contacts user-list component
-   */
-  export class UserlistComponent implements OnInit {
-  breadCrumbItems: Array<{}>;
-    users: UserProfileDTO[] = [];
-    loading: boolean = false;
-    errorMessage: string | null = null;
-    
+/**
+ * Contacts user-list component
+ */
+export class UserlistComponent implements OnInit {
+breadCrumbItems: Array<{}>;
+  users: UserProfileDTO[] = [];
+  loading: boolean = false;
+  errorMessage: string | null = null;
 
-    constructor(private userProfileService: UserProfileService) {}
+  constructor(private userProfileService: UserProfileService,
+    private router: Router
+  ) {}
 
     ngOnInit() {
       this.breadCrumbItems = [{ label: 'Contacts' }, { label: 'Users List', active: true }];
@@ -42,20 +44,18 @@
       });
     }
 
-    deleteUser(idUserprofile: number): void {
-      console.log('ID reçu pour suppression:', idUserprofile);
-      if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
-        this.userProfileService.deleteUser(idUserprofile).subscribe(() => {
-          this.users = this.users.filter(user => user.idUserprofile !== idUserprofile);
-          alert('Utilisateur supprimé.');
-        }, error => {
-          alert('Erreur lors de la suppression : ' + error.message);
-        });
-      }
+  deleteUser(idUserprofile: number): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+      this.userProfileService.deleteUser(idUserprofile).subscribe(() => {
+        this.users = this.users.filter(user => user.idUserprofile !== idUserprofile);
+        alert('Utilisateur supprimé.');
+      }, error => {
+        alert('Erreur lors de la suppression : ' + error.message);
+      });
     }
-    
-
-    
-
-
   }
+  goToEditUser(id: number) {
+   this.router.navigate(['/contacts/edit-user', id]);
+  }
+
+}

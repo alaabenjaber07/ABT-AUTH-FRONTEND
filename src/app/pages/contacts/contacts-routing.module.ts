@@ -5,6 +5,7 @@ import { UserlistComponent } from './userlist/userlist.component';
 import { UsergridComponent } from './usergrid/usergrid.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RoleComponent } from './role/role.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
     {
@@ -18,7 +19,18 @@ const routes: Routes = [
      { path: 'profile/:id', component: ProfileComponent },
      { path: 'role', component: RoleComponent },
     // ou, pour permettre les deux
-    { path: 'profile', redirectTo: 'profile/default', pathMatch: 'full' }
+    { path: 'profile', redirectTo: 'profile/default', pathMatch: 'full' },
+    {
+         path: 'profile/:id', component: ProfileComponent 
+    },
+    {
+    path: 'edit-user/:id',
+    component: EditUserComponent
+     },
+
+    {  
+    path: '', component: ProfileComponent 
+    },
 ];
 
 @NgModule({

@@ -55,4 +55,9 @@ setRole({ id, role }: { id: number; role: string }): Observable<any> {
     return this.http.put(`${this.apiUrl}/role`, { id,role }, { headers });
 }
 
+updateUserProfile(id: number, user: UserProfileDTO): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, user);
+}
+
+
 }

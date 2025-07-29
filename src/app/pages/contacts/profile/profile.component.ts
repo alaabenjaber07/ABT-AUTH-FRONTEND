@@ -26,40 +26,38 @@ breadCrumbItems: Array<{}>;
   loading = false;
   errorMessage: string | null = null;
 
-  constructor(
-    private userProfileService: UserProfileService,
-    private keycloakService: KeycloakService
-  ) {}
+ constructor(
+  private userProfileService: UserProfileService,
+  private route: ActivatedRoute
+) {}
 
-  ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Contacts' }, { label: 'Profile', active: true }];
-    this.revenueBarChart = revenueBarChart;
-    this.statData = statData;
+ngOnInit(): void {
+  this.breadCrumbItems = [{ label: 'Contacts' }, { label: 'Profile', active: true }];
+  this.revenueBarChart = revenueBarChart;
+  this.statData = statData;
 
-    this.loadUserProfile();
+  const id = this.route.snapshot.paramMap.get('id');
+  console.log('id extrait de la route :', id);
+  if (id) {
+    this.loadUserProfile(parseInt(id));
   }
+}
 
-  async loadUserProfile(): Promise<void> {
-    this.loading = true;
+loadUserProfile(id: number): void {
+  console.log('load userProfile appelle avec id=',id)
+  this.loading = true;
 
-    try {
-      const keycloakId = this.keycloakService.getKeycloakInstance().subject;
-
-      this.userProfileService.getUserByKeycloakId(keycloakId).subscribe({
-        next: (data) => {
-          this.userProfile = data;
-          this.loading = false;
-        },
-        error: (err) => {
-          this.errorMessage = "Erreur lors du chargement du profil utilisateur.";
-          console.error(err);
-          this.loading = false;
-        }
-      });
-    } catch (e) {
-      this.errorMessage = "Impossible de récupérer le profil utilisateur.";
-      console.error(e);
+  this.userProfileService.getUserById(id).subscribe({
+    next: (data) => {
+      this.userProfile = data;
+      this.loading = false;
+    },
+    error: (err) => {
+      this.errorMessage = "Erreur lors du chargement du profil utilisateur.";
+      console.error(err);
       this.loading = false;
     }
-  }
+  });
+}
+
 }

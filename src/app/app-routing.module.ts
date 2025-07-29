@@ -11,6 +11,11 @@ const routes: Routes = [
   { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule), canActivate: [AuthGuard] },
   { path: 'pages', loadChildren: () => import('./extrapages/extrapages.module').then(m => m.ExtrapagesModule), canActivate: [AuthGuard] },
   { path: '**', component: Page404Component },
+{
+  path: 'contacts',
+  loadChildren: () => import('./pages/contacts/contacts.module').then(m => m.ContactsModule)
+}
+
 ];
 
 @NgModule({
