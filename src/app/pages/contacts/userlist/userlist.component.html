@@ -37,25 +37,7 @@
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.lastName }}</td>
                     <td>{{ user.email }}</td>
-                    <td (click)="showSelect(user.idUserprofile)" >
-    <ng-container *ngIf="selectedUserId === user.idUserprofile; else roleText" >
-      <div class="form-floating">
-      <select
-        class="form-select form-select-sm"
-        (blur)="assignerRole($event.target.value, user.idUserprofile)"
-        (click)="$event.stopPropagation()"
-        id="assign">
-        <option value="" aria-label="choisir un role">Choisir un rôle</option>
-        <option value="bancaire">Bancaire</option>
-        <option value="admin">Admin</option>
-      </select>
-      <label for="assign">Nouveau Role</label>
-      </div>
-    </ng-container>
-    <ng-template #roleText >
-      {{ user.role }}
-    </ng-template>
-  </td>
+                    <td>{{user.role}}</td>
                     <td>{{ user.matricule }}</td>
                     <td>{{ user.address }}</td>
                     <td>{{ user.phoneNumber }}</td>

@@ -14,10 +14,11 @@ import { UsergridComponent } from './usergrid/usergrid.component';
 import { UserlistComponent } from './userlist/userlist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ArchwizardModule } from 'angular-archwizard';
+import { RoleComponent } from './role/role.component';
 
 
 @NgModule({
-  declarations: [UsergridComponent, UserlistComponent, ProfileComponent],
+  declarations: [UsergridComponent, UserlistComponent, ProfileComponent, RoleComponent],
   imports: [
     CommonModule,
     ContactsRoutingModule,

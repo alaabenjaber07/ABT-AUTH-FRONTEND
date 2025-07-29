@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserlistComponent } from './userlist/userlist.component';
 import { UsergridComponent } from './usergrid/usergrid.component';
 import { ProfileComponent } from './profile/profile.component';
+import { RoleComponent } from './role/role.component';
 
 const routes: Routes = [
     {
@@ -15,6 +16,7 @@ const routes: Routes = [
         component: UsergridComponent
     },
      { path: 'profile/:id', component: ProfileComponent },
+     { path: 'role', component: RoleComponent },
     // ou, pour permettre les deux
     { path: 'profile', redirectTo: 'profile/default', pathMatch: 'full' }
 ];

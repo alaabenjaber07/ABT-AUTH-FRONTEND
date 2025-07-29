@@ -16,8 +16,7 @@
     users: UserProfileDTO[] = [];
     loading: boolean = false;
     errorMessage: string | null = null;
-    isEditing: boolean = false;
-    selectedUserId: number =0;
+    
 
     constructor(private userProfileService: UserProfileService) {}
 
@@ -54,31 +53,9 @@
         });
       }
     }
-    showSelect(userId: number): void {
-  if (this.selectedUserId === userId) {
-    this.selectedUserId = 0; 
-  } else {
-    this.selectedUserId = userId; 
-  }
-}
+    
 
-    assignerRole(role: string, userId: number): void {
-  if(confirm('Idez-vous sûr de vouloir assigner le rôle ' + role + ' ?')) {
-    this.userProfileService.setRole({ id: userId, role }).subscribe({
-      next: () => {
-        this.isEditing = false;
-        this.loadUsers();
-        
-      },
-      error: (error) => {
-        this.loadUsers();
-        this.isEditing = false;
-      }
-    });
-
-  }
-  this.selectedUserId=0; 
-  } 
+    
 
 
   }

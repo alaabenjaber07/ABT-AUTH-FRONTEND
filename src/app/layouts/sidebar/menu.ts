@@ -100,6 +100,12 @@ export const MENU: MenuItem[] = [
                 label: 'MENUITEMS.CONTACTS.LIST.PROFILE',
                 link: '/contacts/profile',
                 parentId: 48
+            },
+            {
+                id: 52,
+                label: 'Assign Role',
+                link: '/contacts/role',
+                parentId: 48
             }
         ]
     },
