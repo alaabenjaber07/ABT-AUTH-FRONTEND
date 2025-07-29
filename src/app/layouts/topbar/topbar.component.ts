@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import Keycloak from 'keycloak-js';
+import { KeycloakService } from '../../core/services/keycloak.service';
 
 @Component({
   selector: 'app-topbar',
@@ -29,7 +31,8 @@ export class TopbarComponent implements OnInit {
               private authFackservice: AuthfakeauthenticationService,
               public languageService: LanguageService,
               public translate: TranslateService,
-              public _cookiesService: CookieService) {
+              public _cookiesService: CookieService,
+              private keycloakService: KeycloakService) {
   }
 
   listLang = [
@@ -88,7 +91,7 @@ export class TopbarComponent implements OnInit {
     if (environment.defaultauth === 'firebase') {
       this.authService.logout();
     } else {
-      this.authFackservice.logout();
+      this.keycloakService.logout();
     }
     this.router.navigate(['/account/login']);
   }

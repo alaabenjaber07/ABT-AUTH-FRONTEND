@@ -7,6 +7,7 @@ idUserprofile: number;
   password: string;
   keycloakId: string;
   matricule: string;
+  dateOfBirth:Date;
   address: string;
   phoneNumber: string;
 }

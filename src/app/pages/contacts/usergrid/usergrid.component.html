@@ -98,6 +98,23 @@
                         <input class="form-control" formControlName="phoneNumber" type="text" placeholder="Numéro (facultatif)">
                       </div>
                     </div>
+                    <div class="row mb-3">
+                      <label class="col-md-3 col-form-label">Date de naissance</label>
+                      <div class="col-md-9">
+                        <input class="form-control" formControlName="dateOfBirth" type="date" placeholder="Date de naissance (facultatif)">
+                      </div>
+
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-md-3 col-form-label">Rôle</label>
+                      <div class="col-md-9">
+                        <select class="form-select" formControlName="role">
+                          <option value="">Sélectionner un rôle</option>
+                          <option value="admin">Administrateur</option>
+                          <option value="bancaire">Bancaire</option>
+                        </select>
+                      </div>
+                    </div>
                     <div class="text-center">
                       <button class="btn btn-success mt-3" type="submit">Créer l'utilisateur</button>
                     </div>

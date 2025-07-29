@@ -40,7 +40,9 @@ export class UsergridComponent implements OnInit {
          lastName: ['', Validators.required],
          matricule: [''],
          address: [''],
-         phoneNumber: ['']
+         phoneNumber: [''],
+         dateOfBirth: [''],
+         role: ['bancaire']
        });
      }
    
@@ -49,10 +51,12 @@ export class UsergridComponent implements OnInit {
     this.message = "Veuillez remplir correctement tous les champs obligatoires.";
     return;
   }
-
+  
   const user: UserProfileDTO = this.registerForm.value;
  this.userProfileService.addUser(user).subscribe({
+  
   next: () => {
+    console.log("Envoi de l'utilisateur au backend", user);
     this.message = 'Utilisateur créé avec succès !';
     this.registerForm.reset();
     this.router.navigate(['/list']);

@@ -43,8 +43,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      //email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
 
     // Par défaut rediriger vers /dashboard si pas de returnUrl dans l'URL
@@ -67,13 +68,13 @@ export class LoginComponent implements OnInit {
     }
 
     const credentials = {
-      email: this.f.email.value,
+      username: this.f.username.value,
       password: this.f.password.value
     };
 
     if (environment.defaultauth === 'firebase') {
       // Auth Firebase
-      this.authenticationService.login(credentials.email, credentials.password)
+      this.authenticationService.login(credentials.username, credentials.password)
         .then(() => {
           console.log('Firebase login successful, navigation vers /dashboard');
           this.router.navigateByUrl('/dashboard');
@@ -86,9 +87,7 @@ export class LoginComponent implements OnInit {
       // Auth Keycloak
       this.keycloakService.loginWithCredentials(credentials).subscribe({
         next: (res) => {
-          console.log('Token reçu:', res.access_token);
-          localStorage.setItem('token', res.access_token);
-          console.log('Token stocké, navigation vers:', this.returnUrl);
+          localStorage.setItem('token', res);
           this.router.navigateByUrl(this.returnUrl)
             .then(success => {
               if (!success) {
@@ -104,7 +103,7 @@ export class LoginComponent implements OnInit {
 
     } else {
       // Auth factice
-      this.authFackservice.login(credentials.email, credentials.password)
+      this.authFackservice.login(credentials.username, credentials.password)
         .pipe(first())
         .subscribe(
           () => {

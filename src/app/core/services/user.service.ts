@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
-    private apiUrl = 'http://localhost:8089/api/user-profiles'; 
+    private apiUrl = 'http://localhost:8081/api/user-profiles'; 
 
      addUser(user: UserProfileDTO): Observable<any> {
           console.log("Sending user to backend", user);
@@ -36,7 +36,7 @@ export class UserProfileService {
 
   getUserById(idUserprofile: number): Observable<UserProfileDTO> {
     return this.http.get<UserProfileDTO>(`${this.apiUrl}/${idUserprofile}`);
-  }
+  }   
   
 getUserByKeycloakId(keycloakId: string): Observable<UserProfileDTO> {
   return this.http.get<UserProfileDTO>(`${this.apiUrl}/by-keycloak/${keycloakId}`);
@@ -44,6 +44,15 @@ getUserByKeycloakId(keycloakId: string): Observable<UserProfileDTO> {
 
 getProfile(username: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/profile/${username}`);
-  }
+}
+getRole(idUserprofile:number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/role/${idUserprofile}`);
+}
+setRole({ id, role }: { id: number; role: string }): Observable<any> {
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+    return this.http.put(`${this.apiUrl}/role`, { id,role }, { headers });
+}
 
 }
