@@ -4,10 +4,9 @@ idUserprofile: number;
   email: string;
   firstName: string;
   lastName: string;
-  password: string;
+  password?: string;
   keycloakId: string;
   matricule: string;
-  dateOfBirth:Date;
   address: string;
   phoneNumber: string;
 }

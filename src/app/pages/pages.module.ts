@@ -35,6 +35,9 @@ import { MapsModule } from './maps/maps.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TransactionComponent } from '../shared/widget/transaction/transaction.component';
+import { AddEffetComponent } from './effets/add-effet/add-effet.component';
+import { ListEffetsComponent } from './effets/list-effets/list-effets.component';
+import { AddVirementComponent } from './virements/add-virement/add-virement.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -43,7 +46,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 @NgModule({
-  declarations: [],
+  
   imports: [
     CommonModule,
     FormsModule,
@@ -78,5 +81,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     SimplebarAngularModule,
     LightboxModule
   ],
+  
+  
 })
 export class PagesModule { }

@@ -10,8 +10,7 @@ export class UserProfileService {
     private apiUrl = 'http://localhost:8081/api/user-profiles'; 
 
      addUser(user: UserProfileDTO): Observable<any> {
-          console.log("Sending user to backend", user);
-    return this.http.post(`${this.apiUrl}/register`, user);
+      return this.http.post(`${this.apiUrl}/register`, user);
   }
 
 
@@ -51,13 +50,15 @@ getRole(idUserprofile:number): Observable<any> {
 setRole({ id, role }: { id: number; role: string }): Observable<any> {
   const headers = {
     'Content-Type': 'application/json',
+    responseType: 'text' 
   };
     return this.http.put(`${this.apiUrl}/role`, { id,role }, { headers });
 }
 
 updateUserProfile(id: number, user: UserProfileDTO): Observable<any> {
-  return this.http.put(`${this.apiUrl}/${id}`, user);
+  return this.http.patch(`${this.apiUrl}/${id}`, user);
 }
-
-
+getProfileByKeycloakId(keycloakId: string): Observable<UserProfileDTO> {
+  return this.http.get<UserProfileDTO>(`${this.apiUrl}/by-keycloak-id/${keycloakId}`);
+}
 }

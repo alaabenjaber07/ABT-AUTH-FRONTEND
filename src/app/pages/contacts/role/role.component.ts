@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserProfileDTO } from 'src/app/core/models/UserProfileDTO';
 import { UserProfileService } from 'src/app/core/services/user.service';
 @Component({
@@ -13,7 +14,7 @@ export class RoleComponent implements OnInit {
     roles :String[]=["admin","bancaire"];
     selectedUserId: number = 0;
     selectedRole: string | null = null;
-  constructor(private userProfileService: UserProfileService) {}
+  constructor(private userProfileService: UserProfileService,private router :Router) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -39,6 +40,7 @@ export class RoleComponent implements OnInit {
     this.userProfileService.setRole({ id: userId, role }).subscribe({
       next: () => {
         alert('Rôle assigné avec succès.');
+        this.router.navigate(['/contacts/userlist']);
         this.loadUsers();
         
       },

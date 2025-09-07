@@ -1,0 +1,27 @@
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 0.1rem;
+  font-size: 0.9rem; /* plus petit */
+  cursor: pointer;
+}
+/* TRAITE */
+.status-traite {
+  background-color: #d4edda !important; /* vert clair */
+  color: #155724;
+  font-weight: bold;
+}
+
+/* EN_ATTENTE */
+.status-en-attente {
+  background-color: #fff3cd !important; /* jaune clair */
+  color: #856404;
+  font-weight: bold;
+}
+
+/* REJETE */
+.status-rejete {
+  background-color: #f8d7da !important; /* rouge clair */
+  color: #721c24;
+  font-weight: bold;
+}

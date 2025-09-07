@@ -30,7 +30,8 @@ import { BlogComponent } from './blog/blog.component';
     WidgetModule,
     NgApexchartsModule,
     SharedModule,
-    SimplebarAngularModule
-  ]
+    SimplebarAngularModule,
+    
+      ]
 })
 export class DashboardsModule { }

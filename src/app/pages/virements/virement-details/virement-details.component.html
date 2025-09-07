@@ -1,0 +1,55 @@
+<div class="rib-container" id="virement-details" *ngIf="virement; else loading">
+    <div class="text-end mb-3" *ngIf="virement">
+  <button class="btn btn-danger" (click)="exportToPDF()">
+    📤
+  </button>
+</div>
+  <div class="rib-header">
+    <img src="assets/images/logoAttijari.jpeg" alt="Attijari Bank" class="rib-logo">
+    <h2>Relevé d'identité bancaire</h2>
+  </div>
+
+  <div class="rib-section">
+    <div class="rib-column">
+      <h4>Détails du virement</h4>
+      <table class="rib-table">
+        <tr>
+          <th>Guichet</th>
+          <th>Compte Source</th>
+          <th>Montant</th>
+          <th>Date</th>
+        </tr>
+        <tr>
+          <td>{{ virement.guichet ?? 'N/A' }}</td>
+          <td>{{ virement.compteSource ?? 'N/A' }}</td>
+          <td>{{ virement.montant != null ? (virement.montant | currency:'TND') : 'N/A' }}</td>
+          <td>{{ virement.dateVirement ?? 'N/A' }}</td>
+        </tr>
+      </table>
+
+      <p><strong>Instructions :</strong><br>{{ virement.instructions ?? 'Aucune' }}</p>
+      <p><strong>Mode de virement :</strong><br>{{ virement.modeVirement ?? 'N/A' }}</p>
+      <p><strong>Statut :</strong><br>{{ virement.status ?? 'N/A' }}</p>
+    </div>
+
+    <div class="rib-column">
+      <h4>Bénéficiaire</h4>
+      <p><strong>Nom :</strong><br>{{ virement.beneficiaireNom ?? 'N/A' }}</p>
+      <p><strong>Adresse :</strong><br>{{ virement.beneficiaireAdresse ?? 'N/A' }}</p>
+      <p><strong>Compte Destination :</strong><br>{{ virement.compteDestination ?? 'N/A' }}</p>
+      <p><strong>Donneur d'ordre :</strong><br>{{ virement.nomDonneur ?? 'N/A' }}</p>
+    </div>
+  </div>
+
+  <div class="rib-footer">
+    Ce relevé contient les informations détaillées du virement effectué. À transmettre uniquement à un destinataire autorisé.
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Chargement des détails du virement...</p>
+</ng-template>
+
+<ng-template #noData>
+  <p class="text-danger">Détails du virement non disponibles.</p>
+</ng-template>

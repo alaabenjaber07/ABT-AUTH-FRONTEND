@@ -18,18 +18,13 @@ const routes: Routes = [
     },
      { path: 'profile/:id', component: ProfileComponent },
      { path: 'role', component: RoleComponent },
-    // ou, pour permettre les deux
-    { path: 'profile', redirectTo: 'profile/default', pathMatch: 'full' },
-    {
-         path: 'profile/:id', component: ProfileComponent 
-    },
     {
     path: 'edit-user/:id',
     component: EditUserComponent
      },
 
     {  
-    path: '', component: ProfileComponent 
+    path: 'profile', component: ProfileComponent 
     },
 ];
 

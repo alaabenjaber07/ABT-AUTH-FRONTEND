@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { KeycloakInstance } from 'keycloak-js';
+import { jwtDecode } from 'jwt-decode';
+// npm install jwt-decode --legacy-peer-deps npm install --save-dev @types/jwt-decode --legacy-peer-deps
 import Keycloak from 'keycloak-js';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -8,14 +9,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class KeycloakService {
-  public keycloak: KeycloakInstance;
+  public keycloak: Keycloak;
 
   // URL du serveur Keycloak pour le token
   private keycloakUrl = 'http://localhost:8080/realms/carthago-realm/protocol/openid-connect/token';
   private apiUrl = 'http://localhost:8081/api/user-profiles';
   constructor(private http: HttpClient) {
     
-    this.keycloak = Keycloak({
+    this.keycloak = new Keycloak({
       url: 'http://localhost:8080',
       realm: 'carthago-realm',
       clientId: 'carthago-client-angular'
@@ -39,19 +40,7 @@ export class KeycloakService {
       });
   }
 
-  // Méthode pour l'authentification via email et mot de passe
-  /*loginWithCredentials(credentials: { email: string, password: string }): Observable<any> {
-    const body = new URLSearchParams();
-    body.set('client_id', 'carthago-client-angular'); // Utilise ton client Keycloak
-    body.set('username', credentials.email);  // Utilise l'email
-    body.set('password', credentials.password);  // Utilise le mot de passe
-    body.set('grant_type', 'password');  // Utilise le "password grant type"
-
-    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-
-    // Appel à l'API Keycloak pour obtenir le token
-    return this.http.post(this.keycloakUrl, body.toString(), { headers });
-  }*/
+  
  loginWithCredentials(credentials: { username: string, password: string }): Observable<any> {
   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -66,14 +55,17 @@ export class KeycloakService {
   }
 
   getToken(): string | undefined {
-    return this.keycloak.token;
+    return localStorage.getItem('token') || this.keycloak.token;
+
   }
 
   isLoggedIn(): boolean {
-    return !!this.keycloak.token;
+    const token = this.getToken();
+    console.log("token" ,token);
+    return token != null && !this.isTokenExpired(token);
   }
 
-   getKeycloakInstance(): KeycloakInstance {
+   getKeycloakInstance(): Keycloak {
     return this.keycloak;
   }
 
@@ -85,10 +77,29 @@ export class KeycloakService {
     return this.keycloak.tokenParsed?.preferred_username ?? '';
   }
 
-  getKeycloakId(): string {
-    return this.keycloak.tokenParsed?.sub ?? '';
+  
+  getKeycloakId(): string | null {
+  const tokenParsed = this.keycloak.tokenParsed;
+  
+  if (tokenParsed && typeof tokenParsed === 'object' && 'sub' in tokenParsed) {
+    return tokenParsed.sub;
   }
+  return null;
+}
 
+  
+isTokenExpired(token: string): boolean {
+  try {
+    const decoded: any = jwtDecode(token);
+    if (!decoded.exp) return false; 
+    const now = Date.now() ;
+    const date = new Date(now );
+    const exp = decoded.exp * 1000;
+    return exp < now;
+  } catch (error) {
+    return true;
+  }
+}
 
 
 }

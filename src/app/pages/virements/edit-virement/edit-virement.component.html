@@ -1,0 +1,84 @@
+<div class="container-fluid">
+  <app-page-title title="Modifier Virement" [breadcrumbItems]="['Accueil', 'Virements', 'Modifier']"></app-page-title>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Modifier Virement</h2>
+
+          <form [formGroup]="virementForm" (ngSubmit)="submitForm()">
+
+            <!-- Champs readonly -->
+            <div class="mb-3 row" *ngFor="let field of [
+              {id:'guichet', label:'Guichet', type:'text'},
+              {id:'dateVirement', label:'Date Virement', type:'date'},
+              {id:'nomDonneur', label:'Nom Donneur', type:'text'},
+              {id:'compteSource', label:'Compte Source', type:'text'},
+              {id:'montant', label:'Montant', type:'number'},
+              {id:'beneficiaireNom', label:'Nom Bénéficiaire', type:'text'},
+              {id:'beneficiaireAdresse', label:'Adresse Bénéficiaire', type:'text'},
+              {id:'compteDestination', label:'Compte Destination', type:'text'}
+            ]">
+              <label [for]="field.id" class="col-md-2 col-form-label">{{ field.label }}</label>
+              <div class="col-md-10">
+                <input
+                  class="form-control"
+                  [type]="field.type"
+                  [id]="field.id"
+                  formControlName="{{field.id}}"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <!-- instructions : select modifiable -->
+            <div class="mb-3 row">
+              <label for="instructions" class="col-md-2 col-form-label">Instructions</label>
+              <div class="col-md-10">
+                <select id="instructions" class="form-control" formControlName="instructions" required>
+                  <option *ngFor="let instr of instructionsList" [value]="instr">{{ instr }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- modeVirement : affichage readonly -->
+            <div class="mb-3 row">
+              <label for="modeVirement" class="col-md-2 col-form-label">Mode de Virement</label>
+              <div class="col-md-10">
+                <input
+                  type="text"
+                  id="modeVirement"
+                  class="form-control"
+                  formControlName="modeVirement"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <!-- status : select modifiable -->
+            <div class="mb-3 row">
+              <label for="status" class="col-md-2 col-form-label">Statut</label>
+              <div class="col-md-10">
+                <select id="status" class="form-control" formControlName="status" required>
+                  <option *ngFor="let stat of statusList" [value]="stat">{{ stat }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <button type="submit" class="btn btn-warning">Modifier</button>
+              </div>
+            </div>
+
+            <div *ngIf="message" class="mt-3 alert alert-info">
+              {{ message }}
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

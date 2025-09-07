@@ -1,0 +1,29 @@
+table.table {
+  white-space: nowrap;       /* Empêche le retour à la ligne */
+}
+
+table.table th, 
+table.table td {
+  padding-left: 1.2rem;      /* Espace à gauche */
+  padding-right: 1.2rem;     /* Espace à droite */
+}
+
+.table-responsive {
+  overflow-x: auto;          /* Permet le scroll horizontal si trop large */
+}
+.badge-select {
+  border: none;
+  padding: 5px 16px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+}
+
+.badge{
+  padding: 5px;
+}

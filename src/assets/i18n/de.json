@@ -45,6 +45,12 @@
       "EMAIL": "Email",
       "PROJECTS": "Projekte",
       "TASKS": "Aufgaben",
+      "VIREMENT": {
+      "TEXT": "Virements",
+      "LIST": {
+      "ADD": "Ajouter un virement",
+      "LIST": "Liste des virements"
+  }    },
       "CONTACTS": "Kontakte"
     },
     "EXTRA_PAGES": {

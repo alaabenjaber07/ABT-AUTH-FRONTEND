@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { NgbCollapseModule, NgbDatepickerModule, NgbTimepickerModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { LoaderComponent } from './loader/loader.component';
 @NgModule({

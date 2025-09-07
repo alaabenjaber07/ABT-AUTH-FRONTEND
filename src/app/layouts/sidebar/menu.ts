@@ -8,13 +8,14 @@ export const MENU: MenuItem[] = [
     },
     {
         id: 2,
-        label: 'MENUITEMS.DASHBOARDS.TEXT',
+        label: 'Dashboard',
+        link: '/dashboards/saas',
         icon: 'bx-home-circle',
-        badge: {
+       /* badge: {
             variant: 'info',
             text: 'MENUITEMS.DASHBOARDS.BADGE',
-        },
-        subItems: [
+        },*/
+        /*subItems: [
             {
                 id: 3,
                 label: 'MENUITEMS.DASHBOARDS.LIST.DEFAULT',
@@ -39,7 +40,7 @@ export const MENU: MenuItem[] = [
                 link: '/dashboards/blog',
                 parentId: 2
             },
-        ]
+        ]*/
     },
     {
         id: 7,
@@ -95,21 +96,63 @@ export const MENU: MenuItem[] = [
                 link: '/contacts/list',
                 parentId: 48
             },
-            {
+            /*{
                 id: 51,
                 label: 'MENUITEMS.CONTACTS.LIST.PROFILE',
-                link: '/contacts/profile',
+                link: '/contacts/profile:id',
                 parentId: 48
-            },
+            },*/
+            
             {
                 id: 52,
                 label: 'Assign Role',
                 link: '/contacts/role',
                 parentId: 48
             }
+            
           
         ]
     },
+    {
+        id:53,
+        label:"Effets",
+        icon:"bxs-file",
+        subItems: [
+            {
+                id: 54,
+                label: 'Add Effet',
+                link: '/effets/add-effet',
+                parentId: 53
+            },
+            {
+                id: 55,
+                label: 'List Effets ',
+                link: '/effets/list-effets',
+                parentId: 53
+            }
+        ]
+    }, {
+            id: 52,
+            label: 'Virement',
+            icon: 'bxs-bank',
+            subItems: [
+                {
+                    id: 53,
+                    label: 'Ajouter Virement',
+                    link: '/virements/add',
+                    parentId: 52
+                },
+                {
+                    id: 54,
+                    label: 'Historique des Virements',
+                    link: '/virements/historique',
+                    parentId: 52
+                }
+            ]
+   
+        }
+
+
    
 ];
 

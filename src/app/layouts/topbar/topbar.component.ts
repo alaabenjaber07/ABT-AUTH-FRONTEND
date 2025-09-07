@@ -8,7 +8,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import Keycloak from 'keycloak-js';
+import { jwtDecode } from 'jwt-decode';
+
+import { UserProfileDTO } from '../../core/models/UserProfileDTO';
 import { KeycloakService } from '../../core/services/keycloak.service';
+import { UserProfileService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-topbar',
@@ -32,9 +36,11 @@ export class TopbarComponent implements OnInit {
               public languageService: LanguageService,
               public translate: TranslateService,
               public _cookiesService: CookieService,
-              private keycloakService: KeycloakService) {
+              private keycloakService: KeycloakService, private userProfileService :UserProfileService) {
   }
-
+  userProfile :any;
+  loading = false;
+  errorMessage: string | null = null;
   listLang = [
     { text: 'English', flag: 'assets/images/flags/us.jpg', lang: 'en' },
     { text: 'Spanish', flag: 'assets/images/flags/spain.jpg', lang: 'es' },
@@ -60,7 +66,23 @@ export class TopbarComponent implements OnInit {
     } else {
       this.flagvalue = val.map(element => element.flag);
     }
+     if (this.keycloakService.isLoggedIn()) {
+      console.log("User is logged in");
+    const token = localStorage.getItem('token');
+    const decoded: any = jwtDecode(token!);
+    this.userProfile = {
+      username: decoded.preferred_username || decoded.username,
+      email: decoded.email,
+      firstName: decoded.given_name,
+      lastName: decoded.family_name,
+    };
+    
   }
+  else{
+    console.log("User is not logged in");
+    this.keycloakService.logout();
+  }
+}
 
   setLanguage(text: string, lang: string, flag: string) {
     this.countryName = text;

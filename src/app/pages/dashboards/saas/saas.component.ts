@@ -1,98 +1,158 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
-import { earningLineChart, salesAnalyticsDonutChart, ChatData } from './data';
-import { ChartType, ChatMessage } from './saas.model';
+import { VirementService } from '../../../core/services/virement.service';
+import { DashboardService } from '../../../core/services/dashboard.service';
 import { ConfigService } from '../../../core/services/config.service';
+import { ChartType, ChatMessage } from './saas.model';
 
 @Component({
   selector: 'app-saas',
   templateUrl: './saas.component.html',
   styleUrls: ['./saas.component.scss']
 })
-/**
- * Saas-dashboard component
- */
 export class SaasComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('scrollRef') scrollRef;
+  // ViewChild
+  @ViewChild('scrollRef') scrollRef: any;
+  @ViewChild('content') content: any;
 
-  // bread crumb items
+  // Données générales
   breadCrumbItems: Array<{}>;
+  nombreTotal: number = 0;
+  dashboardStats: any = { today: 0, month: 0, year: 0 };
+  historique: any[] = [];
 
-  earningLineChart: ChartType;
-  salesAnalyticsDonutChart: ChartType;
+  // Stats Effets
+  userCount: number = 0;
+  effetCount: number = 0;
+  effetsEtat: any[] = [];
+  effetsType: any[] = [];
+  effetsDate: any[] = [];
+
+  // Charts Effets
+  salesDonutChart: ChartType;         // Effets par état
+  EffetsTypeDonutChart: ChartType;    // Effets par type
+  earningLineChart: any;              // Effets par date
+
+  // Charts Virements
+  salesAnalyticsDonutChart = {
+    series: [],
+    chart: { type: "donut", height: 200 },
+    labels: ["Urgent", "Standard", "Retardable"],
+    colors: ["#556ee6", "#34c38f", "#f46a6a"],
+    plotOptions: { pie: { donut: { size: "70%" } } },
+    legend: { show: true }
+  };
+
+  activeOptionButton: string = 'all';
+  visitorsOptions: any = {
+    chart: { height: 280, type: "line", toolbar: { show: false } },
+    stroke: { curve: "smooth", width: 2 },
+    dataLabels: { enabled: false },
+    series: [{ name: "Virements", data: [10, 20, 15, 30, 40, 25, 50] }],
+    colors: ["#556ee6"],
+    xaxis: { categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] },
+    legend: { show: false },
+    fill: { opacity: 1 }
+  };
+
+  // Form + Chat
+  formData: FormGroup;
+  chatSubmit: boolean = false;
   ChatData: ChatMessage[];
-
   sassEarning: Array<Object>;
   sassTopSelling: Array<Object>;
 
-  formData: FormGroup;
-
-  // Form submit
-  chatSubmit: boolean;
-
-  constructor(public formBuilder: FormBuilder, private configService: ConfigService) { }
-
-  /**
-   * Returns form
-   */
-  get form() {
-    return this.formData.controls;
-  }
+  constructor(
+    private virementService: VirementService,
+    private dashboardService: DashboardService,
+    private formBuilder: FormBuilder,
+    private configService: ConfigService
+  ) {}
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Dashboards' }, { label: 'Saas', active: true }];
 
-    this._fetchData();
-
+    // 🔹 Form
     this.formData = this.formBuilder.group({
       message: ['', [Validators.required]],
     });
 
-    this.configService.getConfig().subscribe(response => {
-      this.sassEarning = response.sassEarning;
-      this.sassTopSelling = response.sassTopSelling;
-    
+    // 🔹 Virements
+    this.virementService.getNombreTotal().subscribe(res => this.nombreTotal = res);
+    this.virementService.getDashboard().subscribe(res => this.dashboardStats = res);
+    this.virementService.getHistorique().subscribe(res => this.historique = res);
+    this.virementService.getNombreParInstruction().subscribe(res => {
+      this.salesAnalyticsDonutChart.series = [
+        res.URGENT || 0,
+        res.STANDARD || 0,
+        res.RETARDABLE || 0
+      ];
+    });
+
+    // 🔹 Effets
+    this.dashboardService.getUserCount().subscribe(data => this.userCount = data);
+    this.dashboardService.getEffetCount().subscribe(data => this.effetCount = data);
+
+    this.dashboardService.getEffetByEtat().subscribe(data => {
+      this.effetsEtat = data.map((item: any) => ({
+        etat: item.etat ?? item[0],
+        count: item.count ?? item[1]
+      }));
+      this.salesDonutChart = {
+        series: this.effetsEtat.map(e => e.count),
+        chart: { type: 'donut', height: 250 },
+        labels: this.effetsEtat.map(e => e.etat),
+        colors: ['#556ee6', '#34c38f', '#f46a6a', '#f1b44c', '#74788d', '#50a5f1'],
+        legend: { position: 'bottom' },
+        plotOptions: { pie: { donut: { size: '70%' } } }
+      };
+    });
+
+    this.dashboardService.getEffetByType().subscribe(data => {
+      this.effetsType = data.map((item: any) => ({
+        typeEffet: item.typeEffet ?? item[0],
+        effectCount: item.effectCount ?? item[1]
+      }));
+      this.EffetsTypeDonutChart = {
+        series: this.effetsType.map(e => e.effectCount),
+        chart: { type: 'donut', height: 400 },
+        labels: this.effetsType.map(e => e.typeEffet),
+        colors: ['#556ee6', '#34c38f'],
+        legend: { position: 'right' },
+        plotOptions: { pie: { donut: { size: '70%' } } }
+      };
+    });
+
+    this.dashboardService.getEffetRecent().subscribe(data => {
+      this.effetsDate = data.map((item: any) => ({
+        date: item.date ?? item[0],
+        count: item.count ?? item[1]
+      }));
+      const labels = this.effetsDate.map(e => new Date(e.date).toLocaleDateString());
+      const seriesData = this.effetsDate.map(e => e.count);
+
+      this.earningLineChart = {
+        chart: { type: 'line', height: 250 },
+        colors: ['#f46a6a'],
+        stroke: { curve: 'smooth', width: 2 },
+        dataLabels: { enabled: false },
+        series: [{ name: 'Nombre d\'effets', data: seriesData }],
+        xaxis: { categories: labels, title: { text: 'Date' } },
+        yaxis: { title: { text: 'Effets' } }
+      };
     });
   }
 
-  /**
-   * Save the message in chat
-   */
-  messageSave() {
-    const message = this.formData.get('message').value;
-    const currentDate = new Date();
-    if (this.formData.valid && message) {
-      // Message Push in Chat
-      this.ChatData.push({
-        align: 'right',
-        name: 'Henry Wells',
-        message,
-        time: currentDate.getHours() + ':' + currentDate.getMinutes()
-      });
-      this.onListScroll();
-      // Set Form Data Reset
-      this.formData = this.formBuilder.group({
-        message: null
-      });
-    }
-
-    this.chatSubmit = true;
-  }
-
-  private _fetchData() {
-    this.earningLineChart = earningLineChart;
-    this.salesAnalyticsDonutChart = salesAnalyticsDonutChart;
-    this.ChatData = ChatData;
-  }
-
   ngAfterViewInit() {
-    this.scrollRef.SimpleBar.getScrollElement().scrollTop = 500;
+    if (this.scrollRef) {
+      this.scrollRef.SimpleBar.getScrollElement().scrollTop = 500;
+    }
   }
 
+  // 🔹 Scroll chat
   onListScroll() {
-    if (this.scrollRef !== undefined) {
+    if (this.scrollRef) {
       setTimeout(() => {
         this.scrollRef.SimpleBar.getScrollElement().scrollTop =
           this.scrollRef.SimpleBar.getScrollElement().scrollHeight + 1500;
@@ -100,232 +160,20 @@ export class SaasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  selectMonth(value) {
-    switch (value) {
-      case "january":
-        this.sassEarning = [
-          {
-            name: "This month",
-            amount: "$2007.35",
-            revenue: "0.2",
-            time: "From previous period",
-            month: "Last month",
-            previousamount: "$784.04",
-            series: [
-              {
-                name: "series1",
-                data: [22, 35, 20, 41, 51, 42, 49, 45, 58, 42, 75, 48],
-              },
-            ],
-          },
-        ];
-        break;
-      case "december":
-        this.sassEarning = [
-          {
-            name: "This month",
-            amount: "$2007.35",
-            revenue: "0.2",
-            time: "From previous period",
-            month: "Last month",
-            previousamount: "$784.04",
-            series: [
-              {
-                name: "series1",
-                data: [22, 28, 31, 34, 40, 52, 29, 45, 68, 60, 47, 12],
-              },
-            ],
-          },
-        ];
-        break;
-      case "november":
-        this.sassEarning = [
-          {
-            name: "This month",
-            amount: "$2887.35",
-            revenue: "0.4",
-            time: "From previous period",
-            month: "Last month",
-            previousamount: "$684.04",
-            series: [
-              {
-                name: "series1",
-                data: [28, 30, 48, 50, 47, 40, 35, 48, 56, 42, 65, 41],
-              },
-            ],
-          },
-        ];
-        break;
-      case "october":
-        this.sassEarning = [
-          {
-            name: "This month",
-            amount: "$2100.35",
-            revenue: "0.4",
-            time: "From previous period",
-            month: "Last month",
-            previousamount: "$674.04",
-            series: [
-              {
-                name: "series1",
-                data: [28, 48, 39, 47, 48, 41, 28, 46, 25, 32, 24, 28],
-              },
-            ],
-          },
-        ];
-        break;
+  // 🔹 Visitors chart filtre
+  updateOptions(option: string) {
+    this.activeOptionButton = option;
+    if (option === '1m') {
+      this.visitorsOptions.series = [{ name: "Virements", data: [5, 10, 15, 20] }];
+    } else if (option === '6m') {
+      this.visitorsOptions.series = [{ name: "Virements", data: [50, 60, 70, 80, 90, 100] }];
+    } else if (option === '1y') {
+      this.visitorsOptions.series = [{ name: "Virements", data: [200, 250, 300, 350, 400, 450, 500] }];
+    } else {
+      this.visitorsOptions.series = [{ name: "Virements", data: [10, 20, 15, 30, 40, 25, 50] }];
     }
   }
 
-  sellingProduct(event) {
-    let month = event.target.value;
-    switch (month) {
-      case "january":
-        this.sassTopSelling = [
-          {
-            title: "Product B",
-            amount: "$ 7842",
-            revenue: "0.4",
-            list: [
-              {
-                name: "Product D",
-                text: "Neque quis est",
-                sales: 41,
-                chartVariant: "#34c38f"
-              },
-              {
-                name: "Product E",
-                text: "Quis autem iure",
-                sales: 14,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product F",
-                text: "Sed aliquam mauris.",
-                sales: 85,
-                chartVariant: "#f46a6a"
-              },
-            ],
-          },
-        ];
-        break;
-      case "december":
-        this.sassTopSelling = [
-          {
-            title: "Product A",
-            amount: "$ 6385",
-            revenue: "0.6",
-            list: [
-              {
-                name: "Product A",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product B",
-                text: "Quis autem iure",
-                sales: 72,
-                chartVariant: "#f46a6a"
-              },
-              {
-                name: "Product C",
-                text: "Sed aliquam mauris.",
-                sales: 54,
-                chartVariant: "#34c38f"
-              },
-            ],
-          },
-        ];
-        break;
-      case "november":
-        this.sassTopSelling = [
-          {
-            title: "Product C",
-            amount: "$ 4745",
-            revenue: "0.8",
-            list: [
-              {
-                name: "Product G",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#34c38f"
-              },
-              {
-                name: "Product H",
-                text: "Quis autem iure",
-                sales: 42,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product I",
-                text: "Sed aliquam mauris.",
-                sales: 63,
-                chartVariant: "#f46a6a"
-              },
-            ],
-          },
-        ];
-        break;
-      case "october":
-        this.sassTopSelling = [
-          {
-            title: "Product A",
-            amount: "$ 6385",
-            revenue: "0.6",
-            list: [
-              {
-                name: "Product A",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#f46a6a"
-              },
-              {
-                name: "Product B",
-                text: "Quis autem iure",
-                sales: 72,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product C",
-                text: "Sed aliquam mauris.",
-                sales: 54,
-                chartVariant: "#34c38f"
-              },
-            ],
-          },
-        ];
-        break;
-      default:
-        this.sassTopSelling = [
-          {
-            title: "Product A",
-            amount: "$ 6385",
-            revenue: "0.6",
-            list: [
-              {
-                name: "Product A",
-                text: "Neque quis est",
-                sales: 37,
-                chartVariant: "#556ee6"
-              },
-              {
-                name: "Product B",
-                text: "Quis autem iure",
-                sales: 72,
-                chartVariant: "#34c38f"
-              },
-              {
-                name: "Product C",
-                text: "Sed aliquam mauris.",
-                sales: 54,
-                chartVariant: "#f46a6a"
-              }
-            ]
-          }
-        ];
-        break;
-    }
-  }
 
+  get form() { return this.formData.controls; }
 }

@@ -1,0 +1,96 @@
+<div class="container-fluid">
+  <app-page-title title="Ajouter Virement" [breadcrumbItems]="['Accueil', 'Virement']"></app-page-title>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Virement</h2>
+
+          <form [formGroup]="virementForm" (ngSubmit)="submitForm()">
+  <div class="row">
+    <!-- Colonne gauche -->
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="guichet" class="form-label">Guichet</label>
+        <input id="guichet" type="text" class="form-control" formControlName="guichet" />
+      </div>
+
+      <div class="mb-3">
+        <label for="dateVirement" class="form-label">Date Virement</label>
+        <input id="dateVirement" type="date" class="form-control" formControlName="dateVirement" />
+      </div>
+
+      <div class="mb-3">
+        <label for="nomDonneur" class="form-label">Nom Donneur</label>
+        <input id="nomDonneur" type="text" class="form-control" formControlName="nomDonneur" />
+      </div>
+
+      <div class="mb-3">
+        <label for="compteSource" class="form-label">Compte Source</label>
+        <input id="compteSource" type="text" class="form-control" formControlName="compteSource" />
+      </div>
+
+      <div class="mb-3">
+        <label for="montant" class="form-label">Montant</label>
+        <input id="montant" type="number" class="form-control" formControlName="montant" />
+      </div>
+    </div>
+
+    <!-- Colonne droite -->
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="beneficiaireNom" class="form-label">Nom Bénéficiaire</label>
+        <input id="beneficiaireNom" type="text" class="form-control" formControlName="beneficiaireNom" />
+      </div>
+
+      <div class="mb-3">
+        <label for="beneficiaireAdresse" class="form-label">Adresse Bénéficiaire</label>
+        <input id="beneficiaireAdresse" type="text" class="form-control" formControlName="beneficiaireAdresse" />
+      </div>
+
+      <div class="mb-3">
+        <label for="compteDestination" class="form-label">Compte Destination</label>
+        <input id="compteDestination" type="text" class="form-control" formControlName="compteDestination" />
+      </div>
+
+      <div class="mb-3">
+        <label for="instructions" class="form-label">Instructions</label>
+        <select id="instructions" class="form-control" formControlName="instructions">
+          <option *ngFor="let item of instructionsList" [value]="item">{{ item }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="modeVirement" class="form-label">Mode de Virement</label>
+        <select id="modeVirement" class="form-control" formControlName="modeVirement">
+          <option *ngFor="let mode of modeVirementList" [value]="mode">{{ mode }}</option>
+        </select>
+      </div>
+
+     <div class="mb-3">
+  <label for="status" class="form-label">Statut</label>
+  <select id="status" class="form-control" formControlName="status">
+    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+  </select>
+</div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-end">
+      <button type="submit" class="btn btn-orange">Ajouter</button>
+    </div>
+  </div>
+
+  <div *ngIf="message" class="mt-3 alert alert-info">
+    {{ message }}
+  </div>
+</form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,203 +1,179 @@
+<app-loader></app-loader>
 <div class="container-fluid">
 
-    <app-page-title title="Saas" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-    <div class="row">
-        <div class="col-xl-4">
-  <div class="card bg-dark text-white">
-    <div>
-      <div class="row">
-        <div class="col-7">
-          <div class="p-3">
-            <h5 class="text-white">Welcome Back !</h5>
-            <p>Skote Saas Dashboard</p>
+  
 
-            <ul class="ps-3 mb-0">
-              <li class="py-1">7 + Layouts</li>
-              <li class="py-1">Multiple apps</li>
-            </ul>
+  <!-- ✅ ROW 1 : COUNTS -->
+  <div class="row">
+    <!-- Nombre Total de Virements -->
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="avatar-xs me-3">
+              <span class="avatar-title rounded-circle bg-white" style="color:#FF7F00; font-size:18px;">
+                <i class="bx bx-copy-alt"></i>
+              </span>
+            </div>
+            <h5 class="font-size-14 mb-0">Nombre Total de Virements</h5>
+          </div>
+          <div class="text-muted mt-4">
+            <h4>{{ nombreTotal }}</h4>
+            <div class="d-flex">
+              <span class="badge badge-soft-success font-size-12">+0%</span>
+              <span class="ms-2 text-truncate">Par rapport à hier</span>
+            </div>
           </div>
         </div>
-        <div class="col-5 align-self-end">
-          <img src="assets/images/imgTrade.png" alt="" class="img-fluid">
+      </div>
+    </div>
+
+    <!-- Effets -->
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="avatar-xs me-3">
+              <span class="avatar-title rounded-circle bg-white" style="color:#FF7F00; font-size:18px;">
+                <i class="bx bx-file"></i>
+              </span>
+            </div>
+            <h5 class="font-size-14 mb-0">Effets</h5>
+          </div>
+          <div class="text-muted mt-4">
+            <h4>{{ effetCount }}</h4>
+            <div class="d-flex">
+              <span class="badge badge-soft-success font-size-12">+0%</span>
+              <span class="ms-2 text-truncate">Par rapport à hier</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Utilisateurs -->
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="avatar-xs me-3">
+              <span class="avatar-title rounded-circle bg-white" style="color:#FF7F00; font-size:18px;">
+                <i class="bx bx-user"></i>
+              </span>
+            </div>
+            <h5 class="font-size-14 mb-0">Utilisateurs</h5>
+          </div>
+          <div class="text-muted mt-4">
+            <h4>{{ userCount }}</h4>
+            <div class="d-flex">
+              <span class="badge badge-soft-success font-size-12">+0%</span>
+              <span class="ms-2 text-truncate">Par rapport à hier</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ ROW 2 : DONUTS -->
+  <div class="row">
+    <!-- Virements par Instruction -->
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Virements par Instruction</h4>
+          <apx-chart class="apex-charts" dir="ltr"
+            [series]="salesAnalyticsDonutChart.series"
+            [chart]="salesAnalyticsDonutChart.chart"
+            [colors]="salesAnalyticsDonutChart.colors"
+            [plotOptions]="salesAnalyticsDonutChart.plotOptions"
+            [legend]="salesAnalyticsDonutChart.legend"
+            [labels]="salesAnalyticsDonutChart.labels">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Effets par Type -->
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Effets par Type</h4>
+          <apx-chart *ngIf="EffetsTypeDonutChart"
+            class="apex-charts"
+            dir="ltr"
+            [series]="EffetsTypeDonutChart.series"
+            [chart]="EffetsTypeDonutChart.chart"
+            [colors]="EffetsTypeDonutChart.colors"
+            [plotOptions]="EffetsTypeDonutChart.plotOptions"
+            [legend]="EffetsTypeDonutChart.legend"
+            [labels]="EffetsTypeDonutChart.labels">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ✅ ROW : Effets par Etat seule -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-4">Effets par Etat</h4>
+        <apx-chart *ngIf="salesDonutChart"
+          class="apex-charts"
+          dir="ltr"
+          [series]="salesDonutChart.series"
+          [chart]="salesDonutChart.chart"
+          [colors]="salesDonutChart.colors"
+          [plotOptions]="salesDonutChart.plotOptions"
+          [legend]="salesDonutChart.legend"
+          [labels]="salesDonutChart.labels">
+        </apx-chart>
       </div>
     </div>
   </div>
 </div>
 
-        <div class="col-xl-8">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-xs me-3">
-                                    <span
-                                        class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18">
-                                        <i class="bx bx-copy-alt"></i>
-                                    </span>
-                                </div>
-                                <h5 class="font-size-14 mb-0">Orders</h5>
-                            </div>
-                            <div class="text-muted mt-4">
-                                <h4>1,452 <i class="mdi mdi-chevron-up ms-1 text-success"></i></h4>
-                                <div class="d-flex">
-                                    <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span
-                                        class="ms-2 text-truncate">From previous period</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-xs me-3">
-                                    <span
-                                        class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18">
-                                        <i class="bx bx-archive-in"></i>
-                                    </span>
-                                </div>
-                                <h5 class="font-size-14 mb-0">Revenue</h5>
-                            </div>
-                            <div class="text-muted mt-4">
-                                <h4>$ 28,452 <i class="mdi mdi-chevron-up ms-1 text-success"></i></h4>
-                                <div class="d-flex">
-                                    <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span
-                                        class="ms-2 text-truncate">From previous period</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-xs me-3">
-                                    <span
-                                        class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18">
-                                        <i class="bx bx-purchase-tag-alt"></i>
-                                    </span>
-                                </div>
-                                <h5 class="font-size-14 mb-0">Average Price</h5>
-                            </div>
-                            <div class="text-muted mt-4">
-                                <h4>$ 16.2 <i class="mdi mdi-chevron-up ms-1 text-success"></i></h4>
-
-                                <div class="d-flex">
-                                    <span class="badge badge-soft-warning font-size-12"> 0% </span> <span
-                                        class="ms-2 text-truncate">From previous period</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end row -->
+  <!-- Virements -->
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Virements (Evolution)</h5>
+          <apx-chart dir="ltr" class="apex-charts"
+            [chart]="visitorsOptions.chart"
+            [series]="visitorsOptions.series"
+            [legend]="visitorsOptions.legend"
+            [colors]="['#FF7F00']"
+            [fill]="visitorsOptions.fill"
+            [dataLabels]="visitorsOptions.dataLabels"
+            [xaxis]="visitorsOptions.xaxis"
+            [stroke]="visitorsOptions.stroke">
+          </apx-chart>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="row">
-        <div class="col-xl-8">
-            <div class="card">
-                <div class="card-body">
-                    <div class="clearfix">
-                        <div class="float-end">
-                            <div class="input-group input-group-sm">
-                                <select class="form-select form-select-sm" (change)="selectMonth($event.target.value)">
-                                    <option value="january" selected>Jan</option>
-                                    <option value="december">Dec</option>
-                                    <option value="november">Nov</option>
-                                    <option value="october">Oct</option>
-                                </select>
-                                <label class="input-group-text">Month</label>
-                            </div>
-                        </div>
-                        <h4 class="card-title mb-4">Earning</h4>
-                    </div>
-
-                    <div class="row" *ngFor="let item of sassEarning">
-                        <div class="col-lg-4">
-                            <div class="text-muted">
-                                <div class="mb-4">
-                                    <p>{{item.name}}</p>
-                                    <h4>{{ item.amount }}</h4>
-                                    <div><span class="badge badge-soft-success font-size-12 me-1"> + {{ item.revenue }}%
-                                        </span> {{ item.time }}</div>
-                                </div>
-
-                                <div>
-                                    <a href="javascript: void(0);" class="btn btn-primary btn-sm">View Details <i
-                                            class="mdi mdi-chevron-right ms-1"></i></a>
-                                </div>
-
-                                <div class="mt-4">
-                                    <p class="mb-2">{{ item.month }}</p>
-                                    <h5>{{ item.previousamount }}</h5>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-lg-8">
-                            <apx-chart class="apex-charts" dir="ltr" [series]="item.series"
-                                [chart]="earningLineChart.chart" [colors]="earningLineChart.colors"
-                                [stroke]="earningLineChart.stroke" [dataLabels]="earningLineChart.dataLabels">
-                            </apx-chart>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Effets -->
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Effets</h5>
+          <apx-chart class="apex-charts" dir="ltr"
+            [series]="earningLineChart.series"
+            [chart]="earningLineChart.chart"
+            [colors]="earningLineChart.colors"
+            [stroke]="earningLineChart.stroke"
+            [dataLabels]="earningLineChart.dataLabels"
+            [xaxis]="earningLineChart.xaxis"
+            [yaxis]="earningLineChart.yaxis">
+          </apx-chart>
         </div>
-
-        <div class="col-xl-4">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Sales Analytics</h4>
-
-                    <div>
-                        <apx-chart class="apex-charts" dir="ltr" [series]="salesAnalyticsDonutChart.series"
-                            [chart]="salesAnalyticsDonutChart.chart" [colors]="salesAnalyticsDonutChart.colors"
-                            [plotOptions]="salesAnalyticsDonutChart.plotOptions"
-                            [legend]="salesAnalyticsDonutChart.legend" [labels]="salesAnalyticsDonutChart.labels">
-                        </apx-chart>
-                    </div>
-
-                    <div class="text-center text-muted">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="mt-4">
-                                    <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-primary me-1"></i>
-                                        Product A</p>
-                                    <h5>$ 2,132</h5>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="mt-4">
-                                    <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-success me-1"></i>
-                                        Product B</p>
-                                    <h5>$ 1,763</h5>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="mt-4">
-                                    <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-danger me-1"></i>
-                                        Product C</p>
-                                    <h5>$ 973</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    <!-- end row -->
-
-   
-
+  </div>
 </div>
