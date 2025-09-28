@@ -1,0 +1,63 @@
+<form [formGroup]="chequeForm" (ngSubmit)="onSubmit()" class="card p-4">
+
+  <h4 class="card-title mb-4">Ajout d'un chèque</h4>
+
+  <div class="row mb-3">
+    <label for="chequeNumber" class="col-md-3 col-form-label">Numéro de chèque</label>
+    <div class="col-md-9">
+      <input id="chequeNumber" type="text" formControlName="chequeNumber" class="form-control" placeholder="Numéro de chèque">
+      <div *ngIf="chequeForm.get('chequeNumber')?.touched && chequeForm.get('chequeNumber')?.invalid" class="text-danger mt-1 small">
+        Numéro requis.
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label for="amount" class="col-md-3 col-form-label">Montant</label>
+    <div class="col-md-9">
+      <input id="amount" type="number" formControlName="amount" class="form-control" placeholder="Montant">
+      <div *ngIf="chequeForm.get('amount')?.touched && chequeForm.get('amount')?.invalid" class="text-danger mt-1 small">
+        <span *ngIf="chequeForm.get('amount')?.errors?.['required']">Montant requis.</span>
+        <span *ngIf="chequeForm.get('amount')?.errors?.['min']">Le montant doit être positif.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label for="issueDate" class="col-md-3 col-form-label">Date d'émission</label>
+    <div class="col-md-9">
+      <input id="issueDate" type="date" formControlName="issueDate" class="form-control" placeholder="Date d'émission">
+      <div *ngIf="chequeForm.get('issueDate')?.touched && chequeForm.get('issueDate')?.invalid" class="text-danger mt-1 small">
+        Date d'émission requise.
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label for="dueDate" class="col-md-3 col-form-label">Date d'échéance</label>
+    <div class="col-md-9">
+      <input id="dueDate" type="date" formControlName="dueDate" class="form-control" placeholder="Date d'échéance">
+      <div *ngIf="chequeForm.get('dueDate')?.touched && chequeForm.get('dueDate')?.invalid" class="text-danger mt-1 small">
+        Date d'échéance requise.
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label for="beneficiary" class="col-md-3 col-form-label">Bénéficiaire</label>
+    <div class="col-md-9">
+      <input id="beneficiary" type="text" formControlName="beneficiary" class="form-control" placeholder="Bénéficiaire">
+      <div *ngIf="chequeForm.get('beneficiary')?.touched && chequeForm.get('beneficiary')?.invalid" class="text-danger mt-1 small">
+        Bénéficiaire requis.
+      </div>
+    </div>
+  </div>
+
+
+  <div class="text-end">
+    <button type="submit" [disabled]="chequeForm.invalid" class="btn btn-warning">
+      Ajouter le chèque
+    </button>
+  </div>
+
+</form>

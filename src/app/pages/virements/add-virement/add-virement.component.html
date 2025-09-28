@@ -1,12 +1,11 @@
 <div class="container-fluid">
-  <app-page-title title="Ajouter Virement" [breadcrumbItems]="['Accueil', 'Virement']"></app-page-title>
+  
 
   <div class="row">
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">Virement</h2>
-
+          <h4 class="card-title mb-4">Ajouter Virement</h4>
           <form [formGroup]="virementForm" (ngSubmit)="submitForm()">
   <div class="row">
     <!-- Colonne gauche -->
@@ -35,14 +34,15 @@
         <label for="montant" class="form-label">Montant</label>
         <input id="montant" type="number" class="form-control" formControlName="montant" />
       </div>
-    </div>
-
-    <!-- Colonne droite -->
-    <div class="col-md-6">
       <div class="mb-3">
         <label for="beneficiaireNom" class="form-label">Nom Bénéficiaire</label>
         <input id="beneficiaireNom" type="text" class="form-control" formControlName="beneficiaireNom" />
       </div>
+    </div>
+
+    <!-- Colonne droite -->
+    <div class="col-md-6">
+      
 
       <div class="mb-3">
         <label for="beneficiaireAdresse" class="form-label">Adresse Bénéficiaire</label>
@@ -70,9 +70,14 @@
 
      <div class="mb-3">
   <label for="status" class="form-label">Statut</label>
-  <select id="status" class="form-control" formControlName="status">
-    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
-  </select>
+<ng-select
+  [items]="statusList"
+  bindLabel="label"
+  bindValue="value"
+  placeholder="Sélectionner un statut"
+  [formControl]="virementForm.get('status')">
+</ng-select>
+
 </div>
 
     </div>
@@ -80,7 +85,7 @@
 
   <div class="row">
     <div class="col-12 text-end">
-      <button type="submit" class="btn btn-orange">Ajouter</button>
+      <button type="submit" class="btn btn-warning">Ajouter</button>
     </div>
   </div>
 

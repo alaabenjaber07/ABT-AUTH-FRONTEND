@@ -16,6 +16,7 @@ export class RightsidebarComponent implements OnInit {
 
   isVisible: string;
   attribute: string;
+  activeTab: string = 'mot-de-passe'; 
 
   width: string;
   sidebartype: string;
@@ -48,9 +49,6 @@ export class RightsidebarComponent implements OnInit {
     document.body.classList.remove('right-bar-enabled');
   }
 
-  /**
-   * Change Topbar
-   */
   changeTopbar(topbar: string) {
     this.topbar = topbar;
     this.eventService.broadcast('changeTopbar', topbar);

@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 import { EffetDTO } from 'src/app/core/models/EffetDTO';
 import { EffetService } from '../../../core/services/effet.service';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-effets',
@@ -73,37 +73,70 @@ toggleSelection(id: number, checked: boolean) {
 }
 
 deleteSelected(): void {
-  console.log('Selected IDs:', this.selectedEffets);
-    this.effetService.deleteMultiple(this.selectedEffets).subscribe({
-      next: () => {
-        this.loadEffets();
-    this.selectedEffets = [];
-      },
-      error: (error) => {
-        this.errorMessage = 'Erreur lors du supression des effets Selectionnés';
-        console.error('Error deleting effet:', error.message);
-      }
-    });
+  if (this.selectedEffets.length === 0) {
+    Swal.fire('Aucun effet sélectionné', '', 'info');
+    return;
   }
-  updateEtatForSelected(newEtat: string): void {
-    console.log("Nouvel état sélectionné :", newEtat);
-    console.log("Effets sélectionnés :", this.selectedEffets);
-    if (this.selectedEffets.length === 0) {
-      this.errorMessage = 'Aucun effet sélectionné';
-      return;
-    }
-    this.selectedEffets.forEach(id => {
-      this.effetService.updateEtat(id, newEtat).subscribe({
+
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: `Voulez-vous vraiment supprimer ${this.selectedEffets.length} effet(s) sélectionné(s) ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#4CAF50',
+    cancelButtonColor: 'rgba(162, 162, 162, 1)',
+    confirmButtonText: 'Oui, supprimer !',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.effetService.deleteMultiple(this.selectedEffets).subscribe({
         next: () => {
           this.loadEffets();
+          this.selectedEffets = [];
         },
         error: (error) => {
-          this.errorMessage = `Erreur lors de la mise à jour de l'état `;
-          console.error(`Error updating effet ${id}:`, error.message);
+          console.error('Error deleting effets:', error.message);
+          Swal.fire('Erreur !', 'Erreur lors de la suppression des effets.', 'error');
         }
       });
-    });
+    }
+  });
+}
+
+updateEtatForSelected(newEtat: string): void {
+  if (this.selectedEffets.length === 0) {
+    Swal.fire('Aucun effet sélectionné', '', 'info');
+    return;
   }
+
+  Swal.fire({
+    title: 'Confirmer la mise à jour',
+    text: `Voulez-vous vraiment changer l'état de ${this.selectedEffets.length} effet(s) en "${newEtat}" ?`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#4CAF50',
+    cancelButtonColor: 'rgba(162, 162, 162, 1)',
+    confirmButtonText: 'Oui, mettre à jour !',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let completed = 0;
+      this.selectedEffets.forEach(id => {
+        this.effetService.updateEtat(id, newEtat).subscribe({
+          next: () => {
+            completed++;
+            if (completed === this.selectedEffets.length) {
+              this.loadEffets();
+            }
+          },
+          error: (error) => {
+            console.error(`Error updating effet ${id}:`, error.message);
+          }
+        });
+      });
+    }
+  });
+}
   triggerFileInput() {
     this.fileInput.nativeElement.click(); // ouvre le file picker
   }

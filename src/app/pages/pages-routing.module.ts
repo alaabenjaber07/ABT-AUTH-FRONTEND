@@ -7,7 +7,6 @@ const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
  
   { path: 'dashboard', component:DefaultComponent},
- 
 
   { path: 'dashboards', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule) },
   { path: 'ecommerce', loadChildren: () => import('./ecommerce/ecommerce.module').then(m => m.EcommerceModule) },
@@ -26,8 +25,9 @@ const routes: Routes = [
   { path: 'charts', loadChildren: () => import('./chart/chart.module').then(m => m.ChartModule) },
   { path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule) },
   {path:'effets',loadChildren :()=> import('./effets/effets.module').then(m => m.EffetsModule)},
-  {path:'virements',loadChildren :()=> import('./virements/virement.module').then(m => m.VirementModule)}
-
+  {path:'virements',loadChildren :()=> import('./virements/virement.module').then(m => m.VirementModule)},
+  {path:'settings',loadChildren :()=> import('./settings/settings.module').then(m => m.SettingsModule)},
+  {path:'cheques',loadChildren :()=> import('./cheques/cheque.module').then(m => m.ChequeModule)},
 ];
 
 @NgModule({

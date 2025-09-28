@@ -1,0 +1,13 @@
+table.table {
+  white-space: nowrap;       /* Empêche le retour à la ligne */
+}
+
+table.table th, 
+table.table td {
+  padding-left: 1.2rem;      /* Espace à gauche */
+  padding-right: 1.2rem;     /* Espace à droite */
+}
+
+.table-responsive {
+  overflow-x: auto;          /* Permet le scroll horizontal si trop large */
+}

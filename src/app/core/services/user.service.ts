@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { HttpParams } from '@angular/common/http';
 import { User } from '../models/auth.models';
 import { UserProfileDTO } from '../models/UserProfileDTO';
 import { Observable } from 'rxjs';
@@ -61,4 +61,19 @@ updateUserProfile(id: number, user: UserProfileDTO): Observable<any> {
 getProfileByKeycloakId(keycloakId: string): Observable<UserProfileDTO> {
   return this.http.get<UserProfileDTO>(`${this.apiUrl}/by-keycloak-id/${keycloakId}`);
 }
+
+changePassword(currentPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
+  const body = { currentPassword, newPassword, confirmPassword };
+
+  return this.http.put(`${this.apiUrl}/change-password`, body, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+
+
+
 }

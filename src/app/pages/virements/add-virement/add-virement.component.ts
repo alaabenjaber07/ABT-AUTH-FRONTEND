@@ -10,10 +10,15 @@ import { VirementService } from 'src/app/core/services/virement.service';
 export class AddVirementComponent implements OnInit {
  virementForm!: FormGroup;
   message = '';
+statusList = [
+  { label: 'EN_COURS', value: 'EN_COURS' },
+  { label: 'TRAITE', value: 'TRAITE' },
+  { label: 'REJETE', value: 'REJETE' }
+];
 
   instructionsList = ['URGENT', 'STANDARD', 'RETARDABLE'];
   modeVirementList = ['IMMEDIAT', 'DIFFERE', 'PERMANENT'];
-  statusList = ['EN_ATTENTE', 'TRAITE', 'REJETE'];
+  
 
 
   constructor(
@@ -51,16 +56,14 @@ submitForm(): void {
   if (formValue.dateVirement) {
     formValue.dateVirement = new Date(formValue.dateVirement).toISOString().split('T')[0];
   }
-
+  console.log('Form Value:', formValue);
   this.virementService.addVirement(formValue).subscribe({
     next: (res) => {
-      console.log(res);
-      this.message = 'Virement ajouté avec succès. ID : ' + res.id;
-      this.router.navigate(['/virement/historique']);
+      this.router.navigate(['virements/historique']);
     },
     error: (err) => {
       this.message = 'Erreur lors de l\'ajout : ' + err.error;
-      this.router.navigate(['/virement/historique']);
+      this.router.navigate(['virements/historique']);
     }
   });
 }

@@ -38,6 +38,8 @@ import { TransactionComponent } from '../shared/widget/transaction/transaction.c
 import { AddEffetComponent } from './effets/add-effet/add-effet.component';
 import { ListEffetsComponent } from './effets/list-effets/list-effets.component';
 import { AddVirementComponent } from './virements/add-virement/add-virement.component';
+import { ListChequesComponent } from './cheques/list-cheques/list-cheques.component';
+import { AddChequesComponent } from './cheques/add-cheques/add-cheques.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -80,6 +82,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NgbCollapseModule,
     SimplebarAngularModule,
     LightboxModule
+  ],
+  
+  declarations: [
+  
   ],
   
   

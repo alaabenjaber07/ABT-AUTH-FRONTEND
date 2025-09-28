@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserProfileDTO } from 'src/app/core/models/UserProfileDTO';
 import { UserProfileService } from 'src/app/core/services/user.service';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
@@ -36,22 +38,29 @@ export class RoleComponent implements OnInit {
       });
     }
   assignerRole(role: string, userId: number): void {
-  if(confirm('Idez-vous sûr de vouloir assigner le rôle ' + role + ' ?')) {
-    this.userProfileService.setRole({ id: userId, role }).subscribe({
-      next: () => {
-        alert('Rôle assigné avec succès.');
-        this.router.navigate(['/contacts/userlist']);
-        this.loadUsers();
-        
-      },
-      error: (error) => {
-        this.loadUsers();
-        
-      }
-    });
-
-  }
-  
-  } 
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: `Voulez-vous vraiment assigner le rôle "${role}" à cet utilisateur ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, assigner !',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.userProfileService.setRole({ id: userId, role }).subscribe({
+        next: () => {
+          this.loadUsers();
+          this.router.navigate(['contacts/list']);
+        },
+        error: (error) => {
+          this.loadUsers();
+          this.router.navigate(['contacts/list']);
+        }
+      });
+    }
+  });
+}
 
 }

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <app-page-title title="Form Wizard" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <app-page-title title="Ajouter Utilisateur" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="row">
@@ -24,20 +24,20 @@
                     <div class="row mb-3">
                       <label class="col-md-3 col-form-label">Nom d'utilisateur *</label>
                       <div class="col-md-9">
-                        <input class="form-control" formControlName="username" type="text" placeholder="Enter Username">
+                        <input class="form-control" formControlName="username" type="text" placeholder="Nom d'utilisateur">
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label class="col-md-3 col-form-label">Mot de passe *</label>
                       <div class="col-md-9">
-                        <input class="form-control" formControlName="password" type="password" placeholder="Enter Password">
+                        <input class="form-control" formControlName="password" type="password" placeholder="Mot de passe">
                       </div>
                     </div>
                   </div>
                 </div>
                 <ul class="list-inline wizard mb-0">
                   <li class="next list-inline-item float-end">
-                    <button class="btn btn-primary" awNextStep type="button">Suivant</button>
+                    <button class="btn btn-warning" awNextStep type="button">Suivant</button>
                   </li>
                 </ul>
               </aw-wizard-step>
@@ -52,13 +52,13 @@
                     <div class="row mb-3">
                       <label class="col-md-3 col-form-label">Prénom *</label>
                       <div class="col-md-9">
-                        <input class="form-control" formControlName="firstName" type="text" placeholder="Enter first name">
+                        <input class="form-control" formControlName="firstName" type="text" placeholder="Prénom">
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label class="col-md-3 col-form-label">Nom *</label>
                       <div class="col-md-9">
-                        <input class="form-control" formControlName="lastName" type="text" placeholder="Enter last name">
+                        <input class="form-control" formControlName="lastName" type="text" placeholder="Nom">
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -74,7 +74,7 @@
                     <button class="btn btn-secondary" awPreviousStep type="button">Précédent</button>
                   </li>
                   <li class="next list-inline-item float-end">
-                    <button class="btn btn-primary" awNextStep type="button">Suivant</button>
+                    <button class="btn btn-warning" awNextStep type="button">Suivant</button>
                   </li>
                 </ul>
               </aw-wizard-step>
@@ -116,7 +116,7 @@
                       </div>
                     </div>
                     <div class="text-center">
-                      <button class="btn btn-success mt-3" type="submit">Créer l'utilisateur</button>
+                      <button class="btn btn-warning mt-3" type="submit">Créer l'utilisateur</button>
                     </div>
                   </div>
                 </div>

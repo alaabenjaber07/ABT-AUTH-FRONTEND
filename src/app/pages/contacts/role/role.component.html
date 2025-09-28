@@ -1,7 +1,7 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Assigner un Rôle</h4>
+      <h4 class="card-title">Assigner Rôle</h4>
 
       <!-- Select Utilisateur -->
       <div class="form-group mb-3">
@@ -32,7 +32,7 @@
       <!-- Bouton d'action -->
        <div class="d-flex justify-content-end ">
       <button
-        class="btn btn-primary mt-3 mr-2"
+        class="btn btn-warning mt-3 mr-2"
         (click)="assignerRole(selectedRole, selectedUserId)"
         [disabled]="!selectedUserId || !selectedRole"
       >

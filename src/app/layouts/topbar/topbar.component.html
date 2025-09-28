@@ -29,12 +29,7 @@
       </button>
 
       <!-- Search Desktop -->
-      <form class="app-search d-none d-xl-block">
-        <div class="position-relative">
-          <input type="text" class="form-control" placeholder="{{'HEADER.SEARCH' | translate}}">
-          <span class="bx bx-search-alt"></span>
-        </div>
-      </form>
+      
     </div>
 
     <div class="d-flex">
@@ -46,16 +41,7 @@
           <i class="mdi mdi-magnify"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" ngbDropdownMenu>
-          <form class="p-3">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search ..." />
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                  <i class="mdi mdi-magnify"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+          
         </div>
       </div>
 
@@ -66,18 +52,7 @@
         </button>
       </div>
 
-      <!-- Notifications -->
-      <div class="dropdown d-inline-block" ngbDropdown>
-        <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
-          ngbDropdownToggle>
-          <i class="bx bx-bell bx-tada"></i>
-          <span class="badge bg-danger rounded-pill">3</span>
-        </button>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-          aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>
-          <!-- Notifications content (inchangé) -->
-        </div>
-      </div>
+      
 
       <!-- User -->
       <div class="dropdown d-inline-block" ngbDropdown>
@@ -91,10 +66,7 @@
             <i class="bx bx-user font-size-16 align-middle me-1" id="ic"></i> {{ 'HEADER.LOGIN.PROFILE' | translate }}
           </a>
           
-          <a class="dropdown-item " href="#">
-            <span class="badge bg-success float-end">11</span>
-            <i class="bx bx-wrench font-size-16 align-middle me-1" id="ic"></i> {{ 'HEADER.LOGIN.SETTINGS' | translate }}
-          </a>
+          
         
           <div class="dropdown-item d-block"></div>
           <a class="dropdown-item text-danger" href="#" (click)="logout()">

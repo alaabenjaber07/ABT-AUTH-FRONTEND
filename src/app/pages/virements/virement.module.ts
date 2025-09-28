@@ -8,7 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListVirementComponent } from './list-virement/list-virement.component';
 import { VirementDetailsComponent } from './virement-details/virement-details.component';
 import { EditVirementComponent } from './edit-virement/edit-virement.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [AddVirementComponent, ListVirementComponent, VirementDetailsComponent, EditVirementComponent],
   imports: [
@@ -17,7 +17,8 @@ import { EditVirementComponent } from './edit-virement/edit-virement.component';
     VirementRoutingModule,
      UIModule,
      FormsModule ,
-     NgbModule
+     NgbModule,
+      NgSelectModule
   ]
 })
 export class VirementModule { }

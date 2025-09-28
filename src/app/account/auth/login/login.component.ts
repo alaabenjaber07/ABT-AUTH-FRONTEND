@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     });
 
     // Par défaut rediriger vers /dashboard si pas de returnUrl dans l'URL
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/saas';
   }
 
   get f() {
@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
       this.keycloakService.loginWithCredentials(credentials).subscribe({
         next: (res) => {
           localStorage.setItem('token', res);
-          this.router.navigateByUrl(this.returnUrl)
+          this.router.navigateByUrl('/dashboards/saas')
             .then(success => {
               if (!success) {
                 console.error('Navigation vers', this.returnUrl, 'échouée');
@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit {
         .subscribe(
           () => {
             console.log('Fake login réussi, navigation vers /dashboard');
-            this.router.navigateByUrl('/dashboard');
+            this.router.navigateByUrl('/dashboards/saas');
           },
           error => {
             this.error = error ? error : '';

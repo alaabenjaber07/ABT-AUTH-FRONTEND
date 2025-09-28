@@ -81,18 +81,18 @@ export const MENU: MenuItem[] = [
   
     {
         id: 48,
-        label: 'User',
+        label: 'Utilisateurs',
         icon: 'bxs-user-detail',
         subItems: [
             {
                 id: 49,
-                label: 'Add User',
+                label: 'Ajouter Utilisateur',
                 link: '/contacts/grid',
                 parentId: 48
             },
             {
                 id: 50,
-                label: 'MENUITEMS.CONTACTS.LIST.USERLIST',
+                label: 'Liste des Utilisateurs',
                 link: '/contacts/list',
                 parentId: 48
             },
@@ -105,7 +105,7 @@ export const MENU: MenuItem[] = [
             
             {
                 id: 52,
-                label: 'Assign Role',
+                label: 'Assigner Role',
                 link: '/contacts/role',
                 parentId: 48
             }
@@ -120,13 +120,13 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 54,
-                label: 'Add Effet',
+                label: 'Ajouter Effet',
                 link: '/effets/add-effet',
                 parentId: 53
             },
             {
                 id: 55,
-                label: 'List Effets ',
+                label: 'List des Effets ',
                 link: '/effets/list-effets',
                 parentId: 53
             }
@@ -150,6 +150,24 @@ export const MENU: MenuItem[] = [
                 }
             ]
    
+        },{
+        id: 56,
+        label: 'Chéques',
+        icon: 'bxs-wallet',
+        subItems: [
+            {
+                id: 57,
+                label: 'Ajouter Cheque',
+                link: '/cheques/add-cheque',
+                parentId: 56
+            },  
+            {
+                id: 58,
+                label: 'Liste des Cheques',
+                link: '/cheques/list-cheques',
+                parentId: 56
+            }
+        ]
         }
 
 

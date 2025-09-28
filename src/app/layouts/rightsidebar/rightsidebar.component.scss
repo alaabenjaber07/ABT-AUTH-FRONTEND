@@ -1,1 +1,26 @@
 
+.menu-item {
+
+  border-radius: 8px;
+  transition: all 0.3s ease;   // smooth transition
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;       // pas de underline
+  color: inherit;              // utilise la couleur text-secondary
+
+  &:hover {
+    background-color: #e2e6ea; // fond légèrement plus foncé
+    color: #212529;             // texte plus sombre pour contraste // effet léger de glissement
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); // légère ombre
+    text-decoration: none;      // pas de underline
+  }
+
+  i {
+    vertical-align: middle;
+    transition: transform 0.3s ease; 
+  }
+
+  &:hover i {
+    transform: translateX(3px); // icône aussi se déplace légèrement
+  }
+}

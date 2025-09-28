@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Virement } from 'src/app/core/models/virement.model';
 import { VirementService } from 'src/app/core/services/virement.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-list-virement',
   templateUrl: './list-virement.component.html',
@@ -42,12 +43,15 @@ virements: Virement[] = [];
     this.applyFiltersAndPagination();
   }
 
-  resetFilters() {
+  
+  resetFiltersWithDelay() {
+  setTimeout(() => {
     this.searchTerm = '';
     this.filterDate = '';
     this.page = 1;
     this.applyFiltersAndPagination();
-  }
+  }, 200); 
+}
 
   applyFiltersAndPagination() {
     let filtered = this.virements;
@@ -83,16 +87,31 @@ virements: Virement[] = [];
   }
 
   deleteVirement(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce virement ?')) {
-      this.virementService.deleteVirement(id).subscribe(() => {
-        this.virements = this.virements.filter(v => v.id !== id);
-        this.applyFiltersAndPagination();
-        alert('Virement supprimé.');
-      }, error => {
-        alert('Erreur lors de la suppression : ' + (error.message || error));
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: 'Voulez-vous vraiment supprimer ce virement ?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#4CAF50',
+    cancelButtonColor: 'rgba(162, 162, 162, 1)',
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.virementService.deleteVirement(id).subscribe({
+        next: () => {
+          this.virements = this.virements.filter(v => v.id !== id);
+          this.applyFiltersAndPagination();
+          Swal.fire('Supprimé !', 'Le virement a été supprimé.', 'success');
+        },
+        error: (error) => {
+          Swal.fire('Erreur', 'Erreur lors de la suppression : ' + (error.message || error), 'error');
+        }
       });
     }
-  }
+  });
+}
+
 
   viewDetails(id: number): void {
     this.router.navigate(['/virements/details', id]);

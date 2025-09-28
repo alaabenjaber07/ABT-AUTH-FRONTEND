@@ -1,0 +1,77 @@
+<div class="container-fluid">
+<div class="card">
+<div class="card-body">
+<div class="d-flex mb-3 align-items-center gap-2">
+  <input type="text"
+         placeholder="Recherche par numéro"
+         [(ngModel)]="searchTerm"
+         (input)="filterCheques()"
+         class="form-control  w-50" />
+
+  <ng-select class="custom-width w-auto"
+             [items]="etatOptions"
+             bindLabel="label"
+             bindValue="value"
+             [(ngModel)]="selectedEtat"
+             (ngModelChange)="updateEtatForSelected($event)"
+             placeholder="Mettre à jour le statut"
+             [disabled]="!selectedCheque"
+             [class.form-control-sm]="true">
+  </ng-select>
+  <button class="btn btn-warning w-md"
+          (click)="deleteSelectedCheque()"
+          [disabled]="!selectedCheque">
+    Supprimer le chèque sélectionné
+  </button>
+</div>
+
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead >
+      <tr>
+        <th>Numéro</th>
+        <th>Montant</th>
+        <th>Date émission</th>
+        <th>Date échéance</th>
+        <th>Bénéficiaire</th>
+        <th>Statut</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cheque of paginatedCheques" (click)="selectCheque(cheque)">
+        <td>{{ cheque.chequeNumber }}</td>
+        <td>{{ cheque.amount }} DT</td>
+        <td>{{ cheque.issueDate  }}</td>
+        <td>{{ cheque.dueDate  }}</td>
+        <td>{{ cheque.beneficiary }}</td>
+
+        <!-- Statut -->
+        <td>
+          <span class="badge rounded-pill me-2"
+                [ngClass]="{
+                  'bg-secondary': cheque.status === 'EN_COURS',
+                  'bg-success': cheque.status === 'ACCEPTE',
+                  'bg-danger': cheque.status === 'REJETE'
+                }">
+            {{ cheque.status }}
+          </span>
+
+          <!--<select [(ngModel)]="cheque.status"
+                  (change)="onStatusChange(cheque)"
+                  class="badge-select">
+            <option value="EN_COURS">EN_COURS</option>
+            <option value="ACCEPTE">ACCEPTE</option>
+            <option value="REJETE">REJETE</option>
+          </select>-->
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
+</div>

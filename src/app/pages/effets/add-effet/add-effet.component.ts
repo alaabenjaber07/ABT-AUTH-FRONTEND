@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { EffetService } from 'src/app/core/services/effet.service';
 @Component({
   selector: 'app-add-effet',
@@ -14,7 +15,7 @@ export class AddEffetComponent implements OnInit {
   { label: 'Lettre de change', value: 'LETTRE_DE_CHANGE' }
 ];
  selectedType!: string;
-  constructor(private fb: FormBuilder,private effetService :EffetService) { }
+  constructor(private fb: FormBuilder,private effetService :EffetService,private router :Router) { }
 
   ngOnInit(): void {
     this.effetForm = this.fb.group({
@@ -78,6 +79,7 @@ prevStep() {
         
         next: () => {
           this.effetForm.reset();
+          this.router.navigate(['effets/list-effets']);
         },
         error: (error) => {
           console.error('Error adding effet:', JSON.stringify(error));

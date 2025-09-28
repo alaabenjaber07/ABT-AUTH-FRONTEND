@@ -37,7 +37,7 @@ import { jwtDecode } from 'jwt-decode';
     this.revenueBarChart = revenueBarChart;
     this.statData = statData;
     const id = this.route.snapshot.paramMap.get('id');
-      console.log('id extrait de la route :', id);
+      
       if (id) {
         this.loadUserProfile(parseInt(id));
       }else{
@@ -46,7 +46,7 @@ import { jwtDecode } from 'jwt-decode';
     }
 
     loadUserProfile(id: number): void {
-      console.log('load userProfile appelle avec id=',id)
+      
       this.loading = true;
 
       this.userProfileService.getUserById(id).subscribe({

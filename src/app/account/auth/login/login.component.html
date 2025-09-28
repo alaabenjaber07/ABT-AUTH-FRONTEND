@@ -1,21 +1,8 @@
-<div class="account-pages my-5 pt-sm-5"
-  style="background: url('assets/images/Siege.png') no-repeat center center fixed; background-size: cover;">
-  <div class="container">
-    <div class="row justify-content-center">
+<div class="account-pages my-5 pt-sm-5">
+  <div class="container-fluid h-100">
+    <div class="row justify-content-center align-items-center h-100">
       <div class="col-md-8 col-lg-6 col-xl-5">
         <div class="card overflow-hidden">
-          <div class="bg-soft bg-primary">
-            <div class="row">
-              <div class="col-7">
-                <!-- <div class="text-primary p-4">
-                  <h5 class="text-primary">Welcome Back !</h5>
-                </div> -->
-              </div>
-              <!-- <div class="col-5 align-self-end"> -->
-                
-              <!-- </div> -->
-            </div>
-          </div>
           <div class="card-body pt-0">
             <div>
               <a routerLink="/">
@@ -33,20 +20,20 @@
                 <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
 
                 <div class="mb-3">
-                  <label for="username">Username</label>
-                  <input type="text" formControlName="username" class="form-control" id="username" placeholder="Username"
+                  <label for="username">Login</label>
+                  <input type="text" formControlName="username" class="form-control" id="username" placeholder="Login"
                     [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                   <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+                    <div *ngIf="f.username.errors.required">Login est requis</div>
                     <!--<div *ngIf="f.email.errors.email">Email must be a valid email address</div>-->
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="password">Password</label>
+                  <label for="password">Mot de passe</label>
                   <div class="input-group auth-pass-inputgroup">
                     <input [type]="getPasswordInputType()" class="form-control" formControlName="password"
-                      placeholder="Enter password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                      placeholder="Mot de passe" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
                       aria-label="Password" aria-describedby="password-addon">
 
 
@@ -56,20 +43,20 @@
                     </button>
 
                     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                      <span *ngIf="f.password.errors.required">Password is required</span>
+                      <span *ngIf="f.password.errors.required">Mot de passe est requis</span>
                     </div>
                   </div>
                 </div>
 
-                <div class="form-check">
+                <!--<div class="form-check">
                   <input class="form-check-input" type="checkbox" id="remember-check">
                   <label class="form-check-label" for="remember-check">
                     Remember me
                   </label>
-                </div>
+                </div>-->
 
                 <div class="mt-3 d-grid">
-                  <button class="btn btn-primary" type="submit">Log In</button>
+                  <button class="btn btn-warning" type="submit">S'authentifier</button>
                 </div>
                 <div class="mt-4 text-center">
                   <a routerLink="/account/reset-password" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot

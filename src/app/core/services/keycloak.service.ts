@@ -61,7 +61,6 @@ export class KeycloakService {
 
   isLoggedIn(): boolean {
     const token = this.getToken();
-    console.log("token" ,token);
     return token != null && !this.isTokenExpired(token);
   }
 

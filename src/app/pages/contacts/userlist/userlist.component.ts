@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserProfileDTO } from 'src/app/core/models/UserProfileDTO';
 import { UserProfileService } from 'src/app/core/services/user.service';
+import Swal from 'sweetalert2';
 
   @Component({
     selector: 'app-userlist',
@@ -32,7 +33,6 @@ breadCrumbItems: Array<{}>;
       this.errorMessage = null;
       this.userProfileService.getAllUsers().subscribe({
         next: (data) => {
-          console.log("Utilisateurs récupérés:", data);
           this.users = data;
           this.loading = false;
         },
@@ -44,16 +44,31 @@ breadCrumbItems: Array<{}>;
       });
     }
 
-  deleteUser(idUserprofile: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+  deleteUser(idUserprofile: number) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: "Vous ne pourrez pas revenir en arrière !",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#4CAF50',
+    cancelButtonColor: 'rgba(162, 162, 162, 1)',
+    confirmButtonText: 'Oui, supprimer !',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
       this.userProfileService.deleteUser(idUserprofile).subscribe(() => {
         this.users = this.users.filter(user => user.idUserprofile !== idUserprofile);
-        alert('Utilisateur supprimé.');
+        this.loadUsers();
       }, error => {
-        alert('Erreur lors de la suppression : ' + error.message);
+        Swal.fire(
+          'Erreur !',
+          'Erreur lors de la suppression : ' + (error.error?.message || error.message),
+          'error'
+        );
       });
     }
-  }
+  });
+}
   goToEditUser(id: number) {
    this.router.navigate(['/contacts/edit-user', id]);
   }

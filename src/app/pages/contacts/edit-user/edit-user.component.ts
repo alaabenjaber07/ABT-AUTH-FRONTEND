@@ -42,11 +42,10 @@ export class EditUserComponent implements OnInit {
   onUpdate() {
   this.userService.updateUserProfile(this.userId, this.user).subscribe({
     next: () => {
-      alert('✅ Utilisateur mis à jour avec succès !');
       this.router.navigate(['/contacts/list']);
     },
     error: (err) => {
-      console.error('Erreur API mise à jour:', err);
+      
        this.router.navigate(['/contacts/list']);
     }
   });
