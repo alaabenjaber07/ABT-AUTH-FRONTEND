@@ -10,6 +10,14 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  const publicUrls = [
+    '/api/user-profiles/forgot-password',
+    '/api/user-profiles/reset-password'
+  ];
+  console.log(request.url);
+  const isPublic = publicUrls.some(url => request.url.includes(url));
+
+  if (!isPublic) { // seulement ajouter le token si ce n'est pas public
     const token = localStorage.getItem('token');
     if (token) {
       request = request.clone({
@@ -18,15 +26,17 @@ export class JwtInterceptor implements HttpInterceptor {
         }
       });
     }
-
-    return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.authService.logout();
-          this.router.navigate(['/login']); // redirection
-        }
-        return throwError(() => error);
-      })
-    );
   }
+
+  return next.handle(request).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        this.authService.logout();
+        this.router.navigate(['/login']); // redirection
+      }
+      return throwError(() => error);
+    })
+  );
+}
+
 }

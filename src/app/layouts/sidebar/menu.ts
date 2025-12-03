@@ -126,7 +126,7 @@ export const MENU: MenuItem[] = [
             },
             {
                 id: 55,
-                label: 'List des Effets ',
+                label: 'Liste des Effets ',
                 link: '/effets/list-effets',
                 parentId: 53
             }
@@ -144,7 +144,7 @@ export const MENU: MenuItem[] = [
                 },
                 {
                     id: 54,
-                    label: 'Historique des Virements',
+                    label: 'Liste des Virements',
                     link: '/virements/historique',
                     parentId: 52
                 }

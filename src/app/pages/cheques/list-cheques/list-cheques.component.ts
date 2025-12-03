@@ -119,8 +119,10 @@ deleteSelectedCheque() {
     this.chequeService.encashCheque(chequeNumber).subscribe({
       next: (updatedCheque) => {
         this.updateChequeInList(updatedCheque);
+        this.loadCheques();
       },
       error: (err) => {
+        this.loadCheques();
         console.error('Erreur lors de l\'acceptation', err);
       }
     });
@@ -146,8 +148,10 @@ deleteSelectedCheque() {
     }
   }
 
-
-
+  goToAddCheque() {
+    window.location.href = '/cheques/add-cheque';
+  }
+  
  
 
 }

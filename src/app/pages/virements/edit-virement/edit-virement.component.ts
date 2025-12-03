@@ -64,21 +64,6 @@ export class EditVirementComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.virementForm.invalid) return;
+    
 
-    // getRawValue pour récupérer les valeurs même des champs désactivés
-    const updatedVirement: Virement = { id: this.id, ...this.virementForm.getRawValue() };
-
-    this.virementService.updateVirement(this.id, updatedVirement).subscribe({
-      next: () => {
-        this.message = '✅ Virement mis à jour avec succès';
-        setTimeout(() => this.router.navigate(['/virements/historique']), 1500);
-      },
-      error: (err) => {
-        this.message = '❌ Erreur lors de la mise à jour';
-        console.error(err);
-      }
-    });
-  }
-
-}
+  }}

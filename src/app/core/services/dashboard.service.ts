@@ -23,4 +23,19 @@ export class DashboardService {
   getEffetByType(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/effets/by-type`);
   }
+  getPercentage(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/percentage`);
+  }
+  getChequeByStatus(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/cheques/by-status`);
+  }
+    getChequeCount(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/cheques-count`);
+    }
+    getChequeByUser(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/cheques/by-user`);
+    }
+    getVirementsByUser(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/virements/by-user`);
+    }
 }

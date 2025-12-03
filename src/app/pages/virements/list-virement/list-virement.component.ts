@@ -11,15 +11,16 @@ import Swal from 'sweetalert2';
 export class ListVirementComponent implements OnInit {
 virements: Virement[] = [];
   filteredVirements: Virement[] = [];
-
+  message: string = '';
   searchTerm: string = '';
   filterDate: string = '';
-
+  statusList = ['EN_ATTENTE', 'TRAITE', 'REJETE'];
   page: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
   pagesArray: number[] = [];
-
+  selectedVirement: any = null;
+  selectedEtat: string;
   constructor(
     private virementService: VirementService,
     private router: Router
@@ -42,7 +43,7 @@ virements: Virement[] = [];
     this.page = 1;
     this.applyFiltersAndPagination();
   }
-
+  
   
   resetFiltersWithDelay() {
   setTimeout(() => {
@@ -111,10 +112,40 @@ virements: Virement[] = [];
     }
   });
 }
-
+  goToAddVirement(): void {
+    this.router.navigate(['/virements/add']);
+  }
+  selectVirement(virement: Virement) {
+    this.selectedVirement = virement;
+    this.selectedEtat = virement.status; 
+  }
 
   viewDetails(id: number): void {
     this.router.navigate(['/virements/details', id]);
   }
+  onStatusChange(newStatus: string) {
+  if (this.selectedVirement && newStatus !== this.selectedVirement.status) {
+    this.updateVirement(this.selectedVirement.id, newStatus);
+  }
 }
 
+  updateVirement(id: number, status: string): void {
+    console.log('Updating virement ID:', id, 'to status:', status);
+    this.virementService.updateVirement(id, status).subscribe({
+      next: () => {
+        this.message = '✅ Virement mis à jour avec succès';
+        this.loadVirements();
+      },
+      error: (err) => {
+        this.message = '❌ Erreur lors de la mise à jour';
+        console.error(err);
+      }
+    });
+  }
+  deleteSelectedVirement(): void {
+    if (this.selectedVirement) {
+      this.deleteVirement(this.selectedVirement.id);
+      this.selectedVirement = null;
+    }
+  }
+}

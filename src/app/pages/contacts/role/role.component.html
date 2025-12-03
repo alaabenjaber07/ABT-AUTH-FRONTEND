@@ -30,9 +30,10 @@
       </div>
 
       <!-- Bouton d'action -->
-       <div class="d-flex justify-content-end ">
+       <div class="d-flex justify-content-between mt-3 ">
+        <button class="btn btn-secondary" (click)="onCancel()">Annuler</button>
       <button
-        class="btn btn-warning mt-3 mr-2"
+        class="btn btn-warning"
         (click)="assignerRole(selectedRole, selectedUserId)"
         [disabled]="!selectedUserId || !selectedRole"
       >

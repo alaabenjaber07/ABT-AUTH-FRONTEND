@@ -66,7 +66,6 @@ import { jwtDecode } from 'jwt-decode';
   
         const token = localStorage.getItem('token');
         const decoded: any = jwtDecode(token!);
-        console.log(decoded);
         this.userProfile = {
           username: decoded.preferred_username || decoded.username,
           email: decoded.email,

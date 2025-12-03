@@ -50,6 +50,8 @@ export class EditUserComponent implements OnInit {
     }
   });
 }
-
+onCancel() {
+  this.router.navigate(['/contacts/list']);
+}
 
 }

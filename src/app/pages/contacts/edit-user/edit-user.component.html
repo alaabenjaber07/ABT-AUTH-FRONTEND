@@ -18,8 +18,11 @@
                
               </div>
               <ul class="list-inline wizard mt-4">
+                <li class="previous list-inline-item">
+                  <button class="btn btn-secondary" (click)="onCancel()">Annuler</button>
+                </li>
                 <li class="next list-inline-item float-end">
-                  <button class="btn btn-primary" awNextStep>Suivant</button>
+                  <button class="btn btn-warning" awNextStep>Suivant</button>
                 </li>
               </ul>
             </aw-wizard-step>
@@ -48,8 +51,9 @@
                 </div>
               </div>
               <ul class="list-inline wizard mt-4">
+                <li class="previous list-inline-item"><button class="btn btn-secondary" (click)="onCancel()">Annuler</button></li>
                 <li class="previous list-inline-item"><button class="btn btn-secondary" awPreviousStep>Précédent</button></li>
-                <li class="next list-inline-item float-end"><button class="btn btn-primary" awNextStep>Suivant</button></li>
+                <li class="next list-inline-item float-end"><button class="btn btn-warning" awNextStep>Suivant</button></li>
               </ul>
             </aw-wizard-step>
 
@@ -63,8 +67,9 @@
                 </div>
               </div>
               <ul class="list-inline wizard mt-4">
+                <li class="previous list-inline-item"><button class="btn btn-secondary" (click)="onCancel()">Annuler</button></li>
                 <li class="previous list-inline-item"><button class="btn btn-secondary" awPreviousStep>Précédent</button></li>
-                <li class="next list-inline-item float-end"><button class="btn btn-primary" awNextStep>Suivant</button></li>
+                <li class="next list-inline-item float-end"><button class="btn btn-warning" awNextStep>Suivant</button></li>
               </ul>
             </aw-wizard-step>
 
@@ -75,9 +80,10 @@
                 <h5>Voulez-vous enregistrer les modifications ?</h5>
               </div>
               <ul class="list-inline wizard mt-4">
+                <li class="previous list-inline-item"><button class="btn btn-secondary" (click)="onCancel()">Annuler</button></li>
                 <li class="previous list-inline-item"><button class="btn btn-secondary" awPreviousStep>Précédent</button></li>
                 <li class="list-inline-item float-end">
-                  <button class="btn btn-success" (click)="onUpdate()">Mettre à jour</button>
+                  <button class="btn btn-warning" (click)="onUpdate()">Mettre à jour</button>
                 </li>
               </ul>
             </aw-wizard-step>

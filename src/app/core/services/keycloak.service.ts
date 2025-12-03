@@ -43,7 +43,7 @@ export class KeycloakService {
   
  loginWithCredentials(credentials: { username: string, password: string }): Observable<any> {
   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+  console.log("Credentials:", credentials);
   return this.http.post(`${this.apiUrl}/login`, credentials, { headers, responseType: 'text'  });
 }
 
@@ -61,7 +61,8 @@ export class KeycloakService {
 
   isLoggedIn(): boolean {
     const token = this.getToken();
-    return token != null && !this.isTokenExpired(token);
+    console.log("Token d'authentification :", token);
+      return token != null && !this.isTokenExpired(token);
   }
 
    getKeycloakInstance(): Keycloak {

@@ -23,9 +23,12 @@ deleteVirement(id: number) {
   return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
 }
 
-  updateVirement(id: number, virement: Virement): Observable<Virement> {
-  return this.http.put<Virement>(`${this.apiUrl}/${id}`, virement);
+ updateVirement(id: number, status: string): Observable<Virement> {
+  return this.http.put<Virement>(`${this.apiUrl}/${id}`, status, {
+    headers: { 'Content-Type': 'text/plain' }
+  });
 }
+
 
 getVirementById(id: number): Observable<Virement> {
   return this.http.get<Virement>(`${this.apiUrl}/${id}`);

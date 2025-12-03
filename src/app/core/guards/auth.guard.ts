@@ -17,25 +17,30 @@ export class AuthGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (environment.defaultauth === 'firebase') {
-            const currentUser = this.authenticationService.currentUser();
-            if (currentUser) {
-                return true;
-            }
-        } else if (environment.defaultauth === 'keycloak') {
-            // Vérifie si un token valide existe en localStorage
-            const token = localStorage.getItem('token');
-            if (token) {
-                return true;
-            }
-        } else {
-            const currentUser = this.authFackservice.currentUserValue;
-            if (currentUser) {
-                return true;
-            }
-        }
-        // Si pas connecté, redirige vers login avec returnUrl
-        this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+    const publicRoutes = [
+        '/account/login',
+        '/account/forgot-password',
+        '/account/reset-password' // <- ici
+    ];
+
+    if (publicRoutes.includes(state.url)) {
+        return true; // autorisé même sans token
     }
+
+    if (environment.defaultauth === 'firebase') {
+        const currentUser = this.authenticationService.currentUser();
+        if (currentUser) return true;
+    } else if (environment.defaultauth === 'keycloak') {
+        const token = localStorage.getItem('token');
+        if (token) return true;
+    } else {
+        const currentUser = this.authFackservice.currentUserValue;
+        if (currentUser) return true;
+    }
+
+    // Sinon redirige vers login
+    this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
+    return false;
+}
+
 }

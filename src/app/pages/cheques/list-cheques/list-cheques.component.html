@@ -21,7 +21,14 @@
   <button class="btn btn-warning w-md"
           (click)="deleteSelectedCheque()"
           [disabled]="!selectedCheque">
-    Supprimer le chèque sélectionné
+    Supprimer
+  </button>
+  <button class="btn btn-warning flex-shrink-0">
+          <i class="bx bx-import"></i> Importer
+        </button>
+  <button class="btn btn-warning w-md"
+          (click)="goToAddCheque()">
+    Ajouter un chèque
   </button>
 </div>
 

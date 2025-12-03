@@ -54,7 +54,10 @@
   </div>
 
 
-  <div class="text-end">
+  <div class="d-flex justify-content-between mt-3">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      Annuler
+    </button>
     <button type="submit" [disabled]="chequeForm.invalid" class="btn btn-warning">
       Ajouter le chèque
     </button>

@@ -4,6 +4,7 @@ import { VirementService } from '../../../core/services/virement.service';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { ConfigService } from '../../../core/services/config.service';
 import { ChartType, ChatMessage } from './saas.model';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 @Component({
   selector: 'app-saas',
@@ -28,16 +29,18 @@ export class SaasComponent implements OnInit, AfterViewInit {
   effetsEtat: any[] = [];
   effetsType: any[] = [];
   effetsDate: any[] = [];
-
-  // Charts Effets
+  usersStats: any[] = [];
   salesDonutChart: ChartType;         // Effets par état
   EffetsTypeDonutChart: ChartType;    // Effets par type
-  earningLineChart: any;              // Effets par date
+  earningLineChart: any; 
+  chequeCount: number = 0;
+  chequesEtat: any[] = [];
+  chequesStatus: ChartType;            // Effets par date
 
   // Charts Virements
   salesAnalyticsDonutChart = {
     series: [],
-    chart: { type: "donut", height: 200 },
+    chart: { type: "donut", height: 300 },
     labels: ["Urgent", "Standard", "Retardable"],
     colors: ["#556ee6", "#34c38f", "#f46a6a"],
     plotOptions: { pie: { donut: { size: "70%" } } },
@@ -50,8 +53,8 @@ export class SaasComponent implements OnInit, AfterViewInit {
     stroke: { curve: "smooth", width: 2 },
     dataLabels: { enabled: false },
     series: [{ name: "Virements", data: [10, 20, 15, 30, 40, 25, 50] }],
-    colors: ["#556ee6"],
-    xaxis: { categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] },
+    colors: ["#f46a6a"],
+    xaxis: { categories: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"] },
     legend: { show: false },
     fill: { opacity: 1 }
   };
@@ -72,7 +75,20 @@ export class SaasComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Dashboards' }, { label: 'Saas', active: true }];
-
+    this.dashboardService.getChequeByStatus().subscribe(data => {
+      this.chequesEtat = data.map((item: any) => ({
+        etat: item.statusCheque,
+        count: item.chequeCount 
+      }));
+      this.chequesStatus = {
+        series: this.chequesEtat.map(e => e.count),
+        chart: { type: 'donut', height: 315 },
+        labels: this.chequesEtat.map(e => e.etat),
+        colors: ['#556ee6', '#34c38f', '#f46a6a'],
+        legend: { position: 'bottom' },
+        plotOptions: { pie: { donut: { size: '70%' } } }
+      };
+    });
     // 🔹 Form
     this.formData = this.formBuilder.group({
       message: ['', [Validators.required]],
@@ -89,6 +105,33 @@ export class SaasComponent implements OnInit, AfterViewInit {
         res.RETARDABLE || 0
       ];
     });
+   forkJoin({
+  virements: this.dashboardService.getVirementsByUser(),
+  cheques: this.dashboardService.getChequeByStatus(),
+  effets: this.dashboardService.getEffetByUser()
+}).subscribe(({ virements, cheques, effets }) => {
+  // créer un dictionnaire par username pour chaque type
+  const virementsMap = new Map(virements.map((v: any) => [v.username, v.virementCount]));
+  const chequesMap = new Map(cheques.map((c: any) => [c.username, c.chequeCount]));
+  const effetsMap = new Map(effets.map((e: any) => [e.username, e.effectCount]));
+
+  // récupérer tous les usernames uniques
+  const allUsernames = Array.from(new Set([
+    ...virements.map(v => v.username),
+    ...cheques.map(c => c.username),
+    ...effets.map(e => e.username)
+  ]));
+
+  // fusionner les données
+  this.usersStats = allUsernames.map(username => ({
+    username,
+    virementCount: virementsMap.get(username) ?? 0,
+    chequeCount: chequesMap.get(username) ?? 0,
+    effetCount: effetsMap.get(username) ?? 0
+  }));
+});
+
+    this.dashboardService.getChequeCount().subscribe(data => this.chequeCount = data);
 
     // 🔹 Effets
     this.dashboardService.getUserCount().subscribe(data => this.userCount = data);
@@ -101,7 +144,8 @@ export class SaasComponent implements OnInit, AfterViewInit {
       }));
       this.salesDonutChart = {
         series: this.effetsEtat.map(e => e.count),
-        chart: { type: 'donut', height: 250 },
+        chart: { type: 'donut', height: 300
+         },
         labels: this.effetsEtat.map(e => e.etat),
         colors: ['#556ee6', '#34c38f', '#f46a6a', '#f1b44c', '#74788d', '#50a5f1'],
         legend: { position: 'bottom' },
@@ -116,7 +160,7 @@ export class SaasComponent implements OnInit, AfterViewInit {
       }));
       this.EffetsTypeDonutChart = {
         series: this.effetsType.map(e => e.effectCount),
-        chart: { type: 'donut', height: 400 },
+        chart: { type: 'donut', height: 300 },
         labels: this.effetsType.map(e => e.typeEffet),
         colors: ['#556ee6', '#34c38f'],
         legend: { position: 'right' },
@@ -133,13 +177,14 @@ export class SaasComponent implements OnInit, AfterViewInit {
       const seriesData = this.effetsDate.map(e => e.count);
 
       this.earningLineChart = {
-        chart: { type: 'line', height: 250 },
+        chart: { type: 'line', height: 280, toolbar: { show: false } },
         colors: ['#f46a6a'],
         stroke: { curve: 'smooth', width: 2 },
         dataLabels: { enabled: false },
         series: [{ name: 'Nombre d\'effets', data: seriesData }],
-        xaxis: { categories: labels, title: { text: 'Date' } },
-        yaxis: { title: { text: 'Effets' } }
+        xaxis: { categories: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"] },
+        legend: { show: false },
+        fill: { opacity: 1 }
       };
     });
   }

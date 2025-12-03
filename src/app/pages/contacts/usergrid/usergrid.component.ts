@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Usergrid } from './usergrid.model';
-
+import Swal from 'sweetalert2';
 import { userGridData } from './data';
 import { UserProfileDTO } from 'src/app/core/models/UserProfileDTO';
 import { UserProfileService } from 'src/app/core/services/user.service';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 export class UsergridComponent implements OnInit {
   // bread crumb items
    breadCrumbItems: Array<{}>;
-  
+  user: UserProfileDTO;
   
   
   
@@ -47,6 +47,7 @@ export class UsergridComponent implements OnInit {
      }
    
   onSubmit() {
+    
   if (this.registerForm.invalid) {
     this.message = "Veuillez remplir correctement tous les champs obligatoires.";
     return;
@@ -55,19 +56,22 @@ export class UsergridComponent implements OnInit {
   const user: UserProfileDTO = this.registerForm.value;
  this.userProfileService.addUser(user).subscribe({
   
+  
   next: () => {
-    console.log("Envoi de l'utilisateur au backend", user);
     this.message = 'Utilisateur créé avec succès !';
     this.registerForm.reset();
     this.router.navigate(['/list']);
+    
   },
   error: (err) => {
     this.message = 'Erreur lors de la création : ' + (err.error || err.message || 'Erreur inconnue');
-    // naviguer quand même même s’il y a une erreur
+    this.registerForm.reset();
     this.router.navigate(['/contacts/list']);
   }
 });
-
-
+  }
+  onCancel() {
+    this.router.navigate(['/contacts/list']); 
 }
 }
+  

@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 import { EffetDTO } from 'src/app/core/models/EffetDTO';
 import { EffetService } from '../../../core/services/effet.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-effets',
@@ -15,9 +16,13 @@ export class ListEffetsComponent implements OnInit {
   errorMessage: string | null = null;
   selectedEffets: number[] = [];
   selectedFile: File | null = null;
+  searchTerm: string = '';
+  filteredEffets: EffetDTO[] = [];
+  // Pour le filtre par état
+  
 
   etatOptions = [
-  { label: 'Mettre a jour les etats', value: '' },
+  { label: 'Mettre a jour statut', value: '' },
   { label: 'En attente', value: 'en_attente' },
   { label: 'Payé', value: 'paye' },
   { label: 'Rejeté', value: 'rejete' },
@@ -28,11 +33,27 @@ export class ListEffetsComponent implements OnInit {
   selectedEtat: string = '';
   effetId: number = 1;
   effets :EffetDTO[] = [];
-  constructor(private effetService : EffetService) { }
+  constructor(private effetService : EffetService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadEffets();
   }
+  filterCheques(): void {
+  const term = this.searchTerm.trim().toLowerCase();
+
+  if (!term) {
+    // Si la recherche est vide, on montre tous les effets
+    this.filteredEffets = [...this.effets];
+    return;
+  }
+
+  this.filteredEffets = this.effets.filter(effet =>
+    (effet.reference?.toLowerCase().includes(term)) ||
+    (effet.tireur?.toLowerCase().includes(term)) ||
+    (effet.tire?.toLowerCase().includes(term))
+  );
+}
+
   loadEffets(): void {
     this.loading = true;
     this.errorMessage = null;
@@ -111,7 +132,7 @@ updateEtatForSelected(newEtat: string): void {
 
   Swal.fire({
     title: 'Confirmer la mise à jour',
-    text: `Voulez-vous vraiment changer l'état de ${this.selectedEffets.length} effet(s) en "${newEtat}" ?`,
+    text: `Voulez-vous vraiment changer le statut de ${this.selectedEffets.length} effet(s) en "${newEtat}" ?`,
     icon: 'question',
     showCancelButton: true,
     confirmButtonColor: '#4CAF50',
@@ -183,8 +204,12 @@ importXml(file: File) {
     }
   });
 }
-
+goToAddEffet(): void {
+   this.router.navigate(['/effets/add-effet']);
+    
 }
+}
+
   
 
 

@@ -90,5 +90,9 @@ prevStep() {
       this.effetForm.markAllAsTouched(); 
     }
   }
+  onCancel(): void {
+    this.effetForm.reset();
+    this.router.navigate(['effets/list-effets']);
+  }
 
 }

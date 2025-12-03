@@ -61,16 +61,19 @@ updateUserProfile(id: number, user: UserProfileDTO): Observable<any> {
 getProfileByKeycloakId(keycloakId: string): Observable<UserProfileDTO> {
   return this.http.get<UserProfileDTO>(`${this.apiUrl}/by-keycloak-id/${keycloakId}`);
 }
-
-changePassword(currentPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
-  const body = { currentPassword, newPassword, confirmPassword };
-
-  return this.http.put(`${this.apiUrl}/change-password`, body, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
-    }
-  });
+changePassword(keycloakId:string,username: string, currentPassword: string, newPassword: string, confirmPassword: string) {
+  const body = { 
+    keycloakId,
+    username,
+    currentPassword,
+    newPassword,
+    confirmPassword
+  };
+  console.log(body);
+  return this.http.post(`${this.apiUrl}/change-password`, body);
+}
+resetPassword(email: string) {
+  return this.http.post(`${this.apiUrl}/forgot-password?email=${email}`, {});
 }
 
 

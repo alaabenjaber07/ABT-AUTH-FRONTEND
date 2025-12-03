@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChequeService, Cheque } from '../../../core/services/cheque.service';
 import { Router } from '@angular/router';
-
+import { UserProfileService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-add-cheques',
   templateUrl: './add-cheques.component.html',
@@ -11,11 +11,10 @@ import { Router } from '@angular/router';
 export class AddChequesComponent implements OnInit {
 
  chequeForm: FormGroup;
-
-   // ✅ Déclaration de la liste des statuts
+  userProfile: any;
   chequeStatusOptions: string[] = ['EN_COURS', 'ACCEPTE', 'REJETE'];
-
-  constructor(private fb: FormBuilder, private chequeService: ChequeService,private router :Router) {}
+  kid:string='';
+  constructor(private fb: FormBuilder, private chequeService: ChequeService,private router :Router,private userService: UserProfileService) {}
 
  ngOnInit(): void {
   this.chequeForm = this.fb.group({
@@ -26,6 +25,11 @@ export class AddChequesComponent implements OnInit {
     beneficiary: ['', Validators.required],
     status: ['EN_COURS', Validators.required],
   });
+  
+}
+onCancel(): void {
+  this.chequeForm.reset();
+  this.router.navigate(['/cheques/list-cheques']); 
 }
 
 onSubmit(): void {
@@ -47,7 +51,9 @@ onSubmit(): void {
       amount: Number(formValue.amount),
       issueDate: formatDate(formValue.issueDate),
       dueDate: formatDate(formValue.dueDate),
+      
     };
+
 
     this.chequeService.create(chequeData).subscribe(
       (response) => {

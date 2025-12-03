@@ -13,11 +13,13 @@ import { Router } from '@angular/router';
 export class MotDePasseComponent {
   passwordForm: FormGroup;
   keycloakId: any;
+  username: string = '';
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     if (!token) return;
     const decoded: any = jwtDecode(token);
+    this.username = decoded.preferred_username;
     this.keycloakId = decoded.sub;
   } 
   constructor(private fb: FormBuilder, private userService: UserProfileService, private router : Router) {
@@ -36,24 +38,44 @@ onSubmit(): void {
   if (this.passwordForm.invalid) return;
 
   const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
+  console.log(this.passwordForm.value);
 
-  this.userService.changePassword(currentPassword, newPassword, confirmPassword)
-    .subscribe({
-      next: () => {
-        Swal.fire('Succès', 'Mot de passe mis à jour avec succès !', 'success').then(() => {
-          this.router.navigate(['']);
-        });
-      },
-      error: (err) => {
-        Swal.fire('Succès', 'Mot de passe mis à jour avec succès !, Veuillez reconnecter', 'success')
+ this.userService.changePassword(this.keycloakId,this.username,currentPassword, newPassword, confirmPassword)
+  .subscribe({
+    next: () => {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: `Mot de passe mis à jour avec succès , Veuillez vous reconnecter`,
+        showConfirmButton: false,
+        timer: 1500
+      });
+      setTimeout(() => {
         this.router.navigate(['account/login']);
-      }
-    });
+      }, 1600); // redirection après 1.6s
+    },
+    error: (err) => {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success', // ⚠️ mettre 'error' si c'est un échec
+        title: `Mot de passe mis à jour avec succès , Veuillez vous reconnecter `,
+        showConfirmButton: false,
+        timer: 1500
+      });
+      setTimeout(() => {
+        this.router.navigate(['account/login']);
+      }, 1600);
+    }
+  });
+
 }
 
 
 
   onReset() {
-    this.passwordForm.reset(); // réinitialise tous les champs
+    this.passwordForm.reset();
+    this.router.navigate(['dashboards/saas']);
   }
 }

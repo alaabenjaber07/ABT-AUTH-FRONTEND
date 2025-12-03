@@ -1,73 +1,78 @@
 <app-loader></app-loader>
 <div class="container-fluid">
 
-  
-
   <!-- ✅ ROW 1 : COUNTS -->
   <div class="row">
     <!-- Nombre Total de Virements -->
-    <div class="col-sm-4">
-      <div class="card">
+    <div class="col-lg-3">
+      <div class="card mini-stats-wid">
         <div class="card-body">
-          <div class="d-flex align-items-center mb-3">
-            <div class="avatar-xs me-3">
-              <span class="avatar-title rounded-circle bg-white" style="color:#FF7F00; font-size:18px;">
+          <div class="d-flex flex-wrap align-items-center">
+            <div class="me-3">
+              <p class="text-muted mb-2">Nombre Total de Virements</p>
+              <h5 class="mb-0">{{ nombreTotal }}</h5>
+            </div>
+            <div class="avatar-sm ms-auto">
+              <div class="avatar-title bg-warning rounded-circle text-white font-size-20">
                 <i class="bx bx-copy-alt"></i>
-              </span>
-            </div>
-            <h5 class="font-size-14 mb-0">Nombre Total de Virements</h5>
-          </div>
-          <div class="text-muted mt-4">
-            <h4>{{ nombreTotal }}</h4>
-            <div class="d-flex">
-              <span class="badge badge-soft-success font-size-12">+0%</span>
-              <span class="ms-2 text-truncate">Par rapport à hier</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Effets -->
-    <div class="col-sm-4">
-      <div class="card">
+    <!-- Nombre Total Effets -->
+    <div class="col-lg-3">
+      <div class="card mini-stats-wid">
         <div class="card-body">
-          <div class="d-flex align-items-center mb-3">
-            <div class="avatar-xs me-3">
-              <span class="avatar-title rounded-circle bg-white" style="color:#FF7F00; font-size:18px;">
+          <div class="d-flex flex-wrap align-items-center">
+            <div class="me-3">
+              <p class="text-muted mb-2">Nombre Total d'Effets</p>
+              <h5 class="mb-0">{{ effetCount }}</h5>
+            </div>
+            <div class="avatar-sm ms-auto">
+              <div class="avatar-title bg-warning rounded-circle text-white font-size-20">
                 <i class="bx bx-file"></i>
-              </span>
-            </div>
-            <h5 class="font-size-14 mb-0">Effets</h5>
-          </div>
-          <div class="text-muted mt-4">
-            <h4>{{ effetCount }}</h4>
-            <div class="d-flex">
-              <span class="badge badge-soft-success font-size-12">+0%</span>
-              <span class="ms-2 text-truncate">Par rapport à hier</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Utilisateurs -->
-    <div class="col-sm-4">
-      <div class="card">
+    <!-- Nombre Total Cheques -->
+    <div class="col-lg-3">
+      <div class="card mini-stats-wid">
         <div class="card-body">
-          <div class="d-flex align-items-center mb-3">
-            <div class="avatar-xs me-3">
-              <span class="avatar-title rounded-circle bg-white" style="color:#FF7F00; font-size:18px;">
-                <i class="bx bx-user"></i>
-              </span>
+          <div class="d-flex flex-wrap align-items-center">
+            <div class="me-3">
+              <p class="text-muted mb-2">Nombre Total de Cheques</p>
+              <h5 class="mb-0">{{ chequeCount }}</h5>
             </div>
-            <h5 class="font-size-14 mb-0">Utilisateurs</h5>
+            <div class="avatar-sm ms-auto">
+              <div class="avatar-title bg-warning rounded-circle text-white font-size-20">
+                <i class="bx bx-wallet"></i>
+              </div>
+            </div>
           </div>
-          <div class="text-muted mt-4">
-            <h4>{{ userCount }}</h4>
-            <div class="d-flex">
-              <span class="badge badge-soft-success font-size-12">+0%</span>
-              <span class="ms-2 text-truncate">Par rapport à hier</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nombre Total Utilisateurs -->
+    <div class="col-lg-3">
+      <div class="card mini-stats-wid">
+        <div class="card-body">
+          <div class="d-flex flex-wrap align-items-center">
+            <div class="me-3">
+              <p class="text-muted mb-2">Nombre Total d'Utilisateurs</p>
+              <h5 class="mb-0">{{ userCount }}</h5>
+            </div>
+            <div class="avatar-sm ms-auto">
+              <div class="avatar-title bg-warning rounded-circle text-white font-size-20">
+                <i class="bx bx-user"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -75,7 +80,8 @@
     </div>
   </div>
 
-  <!-- ✅ ROW 2 : DONUTS -->
+
+  <!-- ✅ ROW 2 : DONUTS INSTRUCTION & TYPE -->
   <div class="row">
     <!-- Virements par Instruction -->
     <div class="col-xl-6">
@@ -93,7 +99,6 @@
         </div>
       </div>
     </div>
-    
 
     <!-- Effets par Type -->
     <div class="col-xl-6">
@@ -114,34 +119,54 @@
       </div>
     </div>
   </div>
-<!-- ✅ ROW : Effets par Etat seule -->
-<div class="row">
-  <div class="col-xl-12">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title mb-4">Effets par Etat</h4>
-        <apx-chart *ngIf="salesDonutChart"
-          class="apex-charts"
-          dir="ltr"
-          [series]="salesDonutChart.series"
-          [chart]="salesDonutChart.chart"
-          [colors]="salesDonutChart.colors"
-          [plotOptions]="salesDonutChart.plotOptions"
-          [legend]="salesDonutChart.legend"
-          [labels]="salesDonutChart.labels">
-        </apx-chart>
+
+
+  <!-- ✅ ROW 3 : DONUTS PAR ETAT (CHEQUES + EFFETS) -->
+  <div class="row">
+    <!-- Cheques par Etat -->
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Chèques par Etat</h5>
+          <apx-chart class="apex-charts" dir="ltr"
+            [series]="chequesStatus.series"
+            [chart]="chequesStatus.chart"
+            [labels]="chequesStatus.labels"
+            [colors]="chequesStatus.colors"
+            [legend]="chequesStatus.legend"
+            [plotOptions]="chequesStatus.plotOptions">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Effets par Etat -->
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Effets par Etat</h4>
+          <apx-chart *ngIf="salesDonutChart"
+            class="apex-charts"
+            dir="ltr"
+            [series]="salesDonutChart.series"
+            [chart]="salesDonutChart.chart"
+            [colors]="salesDonutChart.colors"
+            [plotOptions]="salesDonutChart.plotOptions"
+            [legend]="salesDonutChart.legend"
+            [labels]="salesDonutChart.labels">
+          </apx-chart>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
-  <!-- Virements -->
+  <!-- ✅ ROW 4 : EVOLUTION VIREMENTS -->
   <div class="row">
     <div class="col-xl-12">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Virements (Evolution)</h5>
+          <h5 class="card-title">Evolution des Virements</h5>
           <apx-chart dir="ltr" class="apex-charts"
             [chart]="visitorsOptions.chart"
             [series]="visitorsOptions.series"
@@ -157,12 +182,12 @@
     </div>
   </div>
 
-  <!-- Effets -->
+  <!-- ✅ ROW 5 : EVOLUTION EFFETS -->
   <div class="row">
     <div class="col-xl-12">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Effets</h5>
+          <h5 class="card-title">Evolution des Effets</h5>
           <apx-chart class="apex-charts" dir="ltr"
             [series]="earningLineChart.series"
             [chart]="earningLineChart.chart"
@@ -176,4 +201,34 @@
       </div>
     </div>
   </div>
+
+
+  <!-- ✅ ROW 6 : STATS UTILISATEURS -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title mb-4">Statistiques Utilisateurs</h5>
+
+      <div class="table-responsive">
+        <table class="table align-middle table-nowrap mb-0">
+          <thead>
+            <tr>
+              <th>Utilisateur</th>
+              <th>Virements</th>
+              <th>Chèques</th>
+              <th>Effets</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of usersStats">
+              <td>{{ user.username }}</td>
+              <td>{{ user.virementCount }}</td>
+              <td>{{ user.chequeCount }}</td>
+              <td>{{ user.effetCount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>

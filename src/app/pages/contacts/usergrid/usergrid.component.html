@@ -36,6 +36,9 @@
                   </div>
                 </div>
                 <ul class="list-inline wizard mb-0">
+                  <li class="previous list-inline-item">
+                    <button class="btn btn-secondary"  type="button" (click)="onCancel()">Annuler</button>
+                  </li>
                   <li class="next list-inline-item float-end">
                     <button class="btn btn-warning" awNextStep type="button">Suivant</button>
                   </li>
@@ -70,6 +73,9 @@
                   </div>
                 </div>
                 <ul class="list-inline wizard mb-0">
+                  <li class="previous list-inline-item">
+                    <button class="btn btn-secondary"  type="button" (click)="onCancel()">Annuler</button>
+                  </li>
                   <li class="previous list-inline-item">
                     <button class="btn btn-secondary" awPreviousStep type="button">Précédent</button>
                   </li>
@@ -115,14 +121,18 @@
                         </select>
                       </div>
                     </div>
-                    <div class="text-center">
-                      <button class="btn btn-warning mt-3" type="submit">Créer l'utilisateur</button>
-                    </div>
+                    
                   </div>
                 </div>
                 <ul class="list-inline wizard mb-0">
                   <li class="previous list-inline-item">
+                    <button class="btn btn-secondary"  type="button" (click)="onCancel()">Annuler</button>
+                  </li>
+                  <li class="previous list-inline-item">
                     <button class="btn btn-secondary" awPreviousStep type="button">Précédent</button>
+                  </li>
+                  <li class="next list-inline-item float-end">
+                      <button class="btn btn-warning mt-3" type="submit">Créer l'utilisateur</button>
                   </li>
                 </ul>
               </aw-wizard-step>

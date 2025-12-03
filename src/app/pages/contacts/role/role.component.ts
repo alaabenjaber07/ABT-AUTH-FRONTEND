@@ -62,5 +62,7 @@ export class RoleComponent implements OnInit {
     }
   });
 }
-
+onCancel() {
+    this.router.navigate(['/contacts/list']); 
+}
 }

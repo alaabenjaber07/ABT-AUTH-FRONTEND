@@ -18,7 +18,8 @@ breadCrumbItems: Array<{}>;
   users: UserProfileDTO[] = [];
   loading: boolean = false;
   errorMessage: string | null = null;
-
+  user:UserProfileDTO ;
+  searchTerm: string = '';
   constructor(private userProfileService: UserProfileService,
     private router: Router
   ) {}
@@ -43,34 +44,55 @@ breadCrumbItems: Array<{}>;
         }
       });
     }
+    
 
   deleteUser(idUserprofile: number) {
-  Swal.fire({
-    title: 'Êtes-vous sûr ?',
-    text: "Vous ne pourrez pas revenir en arrière !",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#4CAF50',
-    cancelButtonColor: 'rgba(162, 162, 162, 1)',
-    confirmButtonText: 'Oui, supprimer !',
-    cancelButtonText: 'Annuler'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.userProfileService.deleteUser(idUserprofile).subscribe(() => {
-        this.users = this.users.filter(user => user.idUserprofile !== idUserprofile);
-        this.loadUsers();
-      }, error => {
-        Swal.fire(
-          'Erreur !',
-          'Erreur lors de la suppression : ' + (error.error?.message || error.message),
-          'error'
-        );
-      });
-    }
+  this.userProfileService.deleteUser(idUserprofile).subscribe(() => {
+    this.user =this.users.find(u => u.idUserprofile === idUserprofile);
+    this.users = this.users.filter(user => user.idUserprofile !== idUserprofile);
+    //this.loadUsers();
+
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: `${this.user.firstName} ${this.user.lastName} supprimé avec succès`,
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+  }, error => {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'error',
+      title: 'Erreur lors de la suppression',
+      text: error.error?.message || error.message,
+      showConfirmButton: false,
+      timer: 4000
+    });
   });
 }
+
   goToEditUser(id: number) {
    this.router.navigate(['/contacts/edit-user', id]);
+  }
+  filterUsers(){
+    if(this.searchTerm){
+      this.users = this.users.filter(user => 
+        user.username?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        user.firstName?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        user.lastName?.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }else{
+      this.loadUsers();
+    }
+  }
+  goToAddUser(){
+    this.router.navigate(['/contacts/grid']);
+  }
+  goToAssignRole(){
+    this.router.navigate(['/contacts/role']);
   }
 
 }

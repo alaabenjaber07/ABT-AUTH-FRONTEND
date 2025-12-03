@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VirementService } from 'src/app/core/services/virement.service';
+import { jwtDecode } from 'jwt-decode';
+import { UserProfileService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-add-virement',
   templateUrl: './add-virement.component.html',
@@ -19,12 +21,16 @@ statusList = [
   instructionsList = ['URGENT', 'STANDARD', 'RETARDABLE'];
   modeVirementList = ['IMMEDIAT', 'DIFFERE', 'PERMANENT'];
   
-
+  onCancel(): void {
+    this.virementForm.reset();
+    this.router.navigate(['virements/historique']);
+  }
 
   constructor(
     private fb: FormBuilder,
     private virementService: VirementService,
-    private router: Router 
+    private router: Router ,
+    private userService: UserProfileService
 
   ) {}
 
@@ -42,6 +48,7 @@ statusList = [
       modeVirement: ['', Validators.required],
       status: ['', Validators.required],
     });
+  
   }
 
 submitForm(): void {
@@ -52,11 +59,11 @@ submitForm(): void {
 
   const formValue = { ...this.virementForm.value };
 
+
   // Transformer la date au bon format yyyy-MM-dd
   if (formValue.dateVirement) {
     formValue.dateVirement = new Date(formValue.dateVirement).toISOString().split('T')[0];
   }
-  console.log('Form Value:', formValue);
   this.virementService.addVirement(formValue).subscribe({
     next: (res) => {
       this.router.navigate(['virements/historique']);

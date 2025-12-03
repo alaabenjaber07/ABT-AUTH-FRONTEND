@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <app-page-title title="Historique des Virements" [breadcrumbItems]="['Accueil', 'Historique des Virements']"></app-page-title>
+  <app-page-title title="Liste des Virements" [breadcrumbItems]="['Accueil', 'Liste des Virements']"></app-page-title>
 
   <div class="row">
     <div class="col-lg-12">
@@ -7,20 +7,60 @@
         <div class="card-body">
           <h4 class="card-title mb-3">Tous les Virements</h4>
 
-          <!-- 🧰 Filtres -->
           <form (submit)="$event.preventDefault()">
-            <div class="row mb-4" >
-              <div class="col-md-4" >
-                <label> Recherche par nom donneur</label>
-                <input type="text" class="form-control" [(ngModel)]="searchTerm" name="searchTerm" (input)="filterVirements()" (blur)="resetFiltersWithDelay()"/>
-              </div>
-              <div class="col-md-3" >
-                <label> Date du virement</label>
-                <input type="date" class="form-control" [(ngModel)]="filterDate" name="filterDate" (change)="filterVirements()" (blur)="resetFiltersWithDelay()"/>
-              </div>
-              
-            </div>
-          </form>
+  <div class="row align-items-end mb-4 g-2"> <!-- g-2 = gap horizontal/vertical -->
+    
+    <!-- Recherche par nom donneur -->
+    <div class="col-md-3">
+      <label>Recherche par nom donneur</label>
+      <input type="text" class="form-control" [(ngModel)]="searchTerm" name="searchTerm"
+             (input)="filterVirements()" (blur)="resetFiltersWithDelay()" />
+    </div>
+
+    <!-- Date du virement -->
+    <div class="col-md-3">
+      <label>Date du virement</label>
+      <input type="date" class="form-control" [(ngModel)]="filterDate" name="filterDate"
+             (change)="filterVirements()" (blur)="resetFiltersWithDelay()" />
+    </div>
+
+    <!-- Bouton Ajouter -->
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-warning w-auto" (click)="goToAddVirement()">
+        Ajouter un Virement
+      </button>
+    </div>
+    
+    <!-- Bloc Supprimer / Importer / Select -->
+    <div class="col-md-auto">
+      <div class="d-flex gap-1">
+        <!-- Bouton Supprimer -->
+        <button (click)="deleteSelectedVirement()" class="btn btn-warning flex-shrink-0" ngbTooltip="Supprimer">
+          Supprimer
+        </button>
+        
+        <!-- Bouton Importer -->
+        <button class="btn btn-warning flex-shrink-0">
+          <i class="bx bx-import"></i> Importer
+        </button>
+
+        <!-- Select statut -->
+        <ng-select
+          [items]="statusList"
+          [(ngModel)]="selectedEtat"
+          (change)="onStatusChange($event)"
+          placeholder="Modifier statut"
+          [clearable]="false"
+          [disabled]="!selectedVirement"
+          style="width: 210px;"
+        ></ng-select>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+
 
           <!-- 📋 Tableau -->
           <div class="table-responsive">
@@ -36,11 +76,10 @@
         <th>Compte Destination</th>
         <th>Mode</th>
         <th>Statut</th>
-        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let virement of filteredVirements">
+      <tr *ngFor="let virement of filteredVirements" (click)="selectVirement(virement)" [class.table-active]="selectedVirement?.id === virement.id">
         
         <td>{{ virement.dateVirement | date:'yyyy-MM-dd' }}</td>
         <td>{{ virement.nomDonneur }}</td>
@@ -50,35 +89,18 @@
         <td>{{ virement.compteDestination }}</td>
         <td>{{ virement.modeVirement }}</td>
         <td>
-          <span 
-            class="badge rounded-pill"
-            [ngClass]="{
-              'bg-primary': virement.status === 'EN_ATTENTE',
-              'bg-success': virement.status === 'TRAITE',
-              'bg-danger': virement.status === 'REJETE'
-            }">
-            {{ virement.status | titlecase }}
-          </span>
-        </td>
-        <td>
-          <ul class="list-inline font-size-20 contact-links mb-0">
-            <li class="list-inline-item px-1">
-              <button (click)="viewDetails(virement.id)" class="btn btn-sm btn-light" ngbTooltip="Détails">
-                <i class="bx bx-show"></i>
-              </button>
-            </li>
-            <li class="list-inline-item px-1">
-              <button [routerLink]="['../edit', virement.id]" class="btn btn-sm btn-light" ngbTooltip="Modifier">
-                <i class="bx bx-edit"></i>
-              </button>
-            </li>
-            <li class="list-inline-item px-1">
-              <button (click)="deleteVirement(virement.id)" class="btn btn-sm btn-light" ngbTooltip="Supprimer">
-                <i class="bx bx-trash"></i>
-              </button>
-            </li>
-          </ul>
-        </td>
+  <span 
+    class="badge rounded-pill"
+    [ngClass]="{
+      'bg-primary': virement.status === 'EN_ATTENTE',
+      'bg-success': virement.status === 'TRAITE',
+      'bg-danger': virement.status === 'REJETE'
+    }">
+    {{ virement.status | titlecase }}
+  </span>
+</td>
+
+        
       </tr>
       <tr *ngIf="filteredVirements.length === 0">
         <td colspan="10" class="text-center">Aucun virement trouvé.</td>
